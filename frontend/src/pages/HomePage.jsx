@@ -9,7 +9,7 @@ function cn(...inputs) {
 const HomePage = () => {
   return (
     <>
-      <section className="relative min-h-screen w-full overflow-hidden bg-black font-sans antialiased">
+      <section className="relative min-h-fit w-full overflow-hidden bg-black font-sans antialiased">
         {/* Dotted Background Pattern */}
         <div
           className={cn(
