@@ -47,7 +47,7 @@ const HomePage = () => {
             {/* Call to action buttons */}
             <div className="mt-12 flex w-full flex-col items-center justify-center gap-7 sm:flex-row sm:gap-6">
               {/* create room button */}
-              <button className="group relative w-full overflow-hidden border border-green-500/60 bg-black/40 px-8 py-10 text-base font-semibold uppercase tracking-wider text-green-400 transition-all duration-300 hover:border-green-400 hover:bg-green-500 hover:text-black sm:w-auto sm:px-10 md:px-12 md:text-lg">
+              <button className="group relative w-full  overflow-hidden border px-8 py-10 text-base font-semibold uppercase tracking-wider bg-green-400 transition-all duration-30 text-black sm:w-auto sm:px-10 md:px-12 md:text-lg">
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   <span>CREATE A PRIVATE ROOM</span>
                   <span className="transition-transform duration-300 group-hover:translate-x-2">
@@ -58,7 +58,7 @@ const HomePage = () => {
               </button>
 
               {/* join room button */}
-              <button className="group w-full border border-red-500/40 bg-transparent px-8 py-10 text-base font-semibold uppercase tracking-wider text-white-400 backdrop-blur-sm transition-all duration-300 hover:border-red-400 hover:bg-red-500/70 hover:text-white sm:w-auto sm:px-10 md:px-12 md:text-lg">
+              <button className="group w-full px-8 py-10 text-base font-semibold uppercase tracking-wider text-white backdrop-blur-sm transition-all duration-300  bg-red-500/70 hover:text-white sm:w-auto sm:px-10 md:px-12 md:text-lg">
                 <span className="flex items-center justify-center gap-2">
                   <span>JOIN A PRIVATE ROOM</span>
                   <span className="opacity-70 transition-transform duration-300 group-hover:translate-x-2">

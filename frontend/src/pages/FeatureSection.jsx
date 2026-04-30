@@ -101,7 +101,7 @@ const FeaturesSection = () => {
         </div>
 
         {/* Trust badge row */}
-        <div className="mt-16 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-t border-lime-400 pt-10 text-center text-xs text-white">
+        <div className="mt-16 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-t border-white/20 pt-10 text-center text-xs text-white">
           <span className="inline-flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-green-500/70"></span>
             No metadata collection

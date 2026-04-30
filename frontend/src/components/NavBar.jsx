@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { FaGithub, FaUser } from 'react-icons/fa'
+import websiteLogo from '../assets/main-logo.ico'
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -36,7 +37,7 @@ const Navbar = () => {
   ]
 
   return (
-    <nav className="bg-[#0A0C10] border-b border-gray-800 sticky top-0 z-50">
+    <nav className="sticky top-0 z-50 bg-slate-950/50 backdrop-blur-2xl border-b border-white/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 md:h-20">
           {/* Logo / Brand */}
@@ -45,6 +46,11 @@ const Navbar = () => {
               href="/"
               className="text-white text-2xl md:text-3xl font-bold tracking-tight hover:text-green-400 transition-colors duration-200"
             >
+              <img
+                src={websiteLogo}
+                alt="Cifrar Logo"
+                className="h-10 w-auto inline-block mr-2"
+              />
               CIFRAR
             </a>
           </div>
@@ -73,7 +79,7 @@ const Navbar = () => {
             <button
               onClick={toggleMobileMenu}
               type="button"
-              className="text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md p-2 transition-colors duration-200"
+              className="text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-green-500 rounded-md p-2 transition-colors duration-200"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? (
@@ -131,6 +137,7 @@ const Navbar = () => {
               <span className="flex items-center gap-3">
                 {link.name === 'GITHUB' && <FaGithub size={20} />}
                 {link.name === 'ABOUT US' && <FaUser size={20} />}
+                {link.name}
               </span>
             </a>
           ))}
