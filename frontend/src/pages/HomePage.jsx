@@ -1,4 +1,4 @@
-const HeroSection = () => {
+const HomePage = () => {
   return (
     <section className="relative min-h-screen w-full overflow-hidden bg-black font-sans antialiased">
       {/* Background gradient orbs for depth */}
@@ -108,4 +108,4 @@ const HeroSection = () => {
   )
 }
 
-export default HeroSection
+export default HomePage
