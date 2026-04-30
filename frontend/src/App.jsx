@@ -1,13 +1,20 @@
 import './App.css'
-import { HomePage } from './pages/ExportFiles.js'
-import { Footer, Navbar } from './components/ExportFiles.js'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { lazy } from 'react'
+
+const MainLayout = lazy(() => import('./layouts/MainLayout.jsx'))
+const HomePage = lazy(() => import('./pages/HomePage.jsx'))
 
 function App() {
   return (
     <>
-      <Navbar />
-      <HomePage />
-      <Footer />
+      <BrowserRouter>
+        <Routes>
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<HomePage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
