@@ -3,6 +3,7 @@ import { FaGithub, FaDiscord, FaXTwitter } from 'react-icons/fa6'
 const Footer = () => {
   return (
     <footer className="relative w-full h-120 overflow-hidden">
+      <span className="absolute top-0 left-0 h-0.5 w-full bg-linear-to-r from-transparent via-green-400 to-transparent"></span>
       {/* Large CIFRAR Text Background */}
       <div className="absolute inset-0 flex items-center justify-center">
         <h1 className="text-[30vw] font-bold tracking-tight bg-linear-to-r from-emerald-500 to-cyan-400 bg-clip-text text-transparent">
