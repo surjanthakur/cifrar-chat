@@ -7,7 +7,7 @@ const HomePage = () => {
           {/* Top tagline with pill design */}
           <div className="mb-6 md:mb-8 inline-flex items-center gap-2 rounded-full border border-green-500/30 bg-black/60 backdrop-blur-sm px-5 py-2 text-sm font-medium uppercase tracking-wider text-green-400 shadow-lg shadow-green-500/10">
             <span className="inline-block h-2 w-2 rounded-full bg-green-400 shadow-glow"></span>
-            <span>🔒 NO ONE SEE WHAT YOU DO HERE</span>
+            <span>🔒 no one see what you do here</span>
             <span className="inline-block h-2 w-2 rounded-full bg-green-400 shadow-glow"></span>
           </div>
 
@@ -21,19 +21,6 @@ const HomePage = () => {
               <span className="absolute -bottom-2 left-0 h-0.75 w-full bg-linear-to-r from-transparent via-green-400 to-transparent opacity-70"></span>
             </span>
           </h1>
-
-          {/* Feature highlights mini-badges */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-sm text-gray-400">
-            <div className="flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 backdrop-blur-sm">
-              <span className="text-green-400">⚡</span> Peer-to-Peer
-            </div>
-            <div className="flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 backdrop-blur-sm">
-              <span className="text-green-400">🔒</span> No Logs
-            </div>
-            <div className="flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 backdrop-blur-sm">
-              <span className="text-green-400">💬</span> encrypted chats
-            </div>
-          </div>
 
           {/* Call to action buttons */}
           <div className="mt-12 flex w-full flex-col items-center justify-center gap-7 sm:flex-row sm:gap-6">
@@ -58,37 +45,8 @@ const HomePage = () => {
               </span>
             </button>
           </div>
-
-          {/* Small footnote about security */}
-          <div className="mt-12 text-center text-2xl text-gray-500 md:mt-16">
-            <span className="inline-flex items-center gap-1.5">
-              <span className="h-1 w-1 rounded-full bg-green-500/60"></span>
-              No metadata collection • Fully anonymous
-              <span className="h-1 w-1 rounded-full bg-green-500/60"></span>
-            </span>
-          </div>
         </div>
       </div>
-
-      {/* Decorative corner accents */}
-      <div className="pointer-events-none absolute left-0 top-0 h-32 w-32 border-l-2 border-t-2 border-green-500/20"></div>
-      <div className="pointer-events-none absolute bottom-0 right-0 h-32 w-32 border-b-2 border-r-2 border-green-500/20"></div>
-
-      <style jsx>{`
-        @keyframes subtlePulse {
-          0%,
-          100% {
-            opacity: 0.6;
-          }
-          50% {
-            opacity: 1;
-          }
-        }
-        .shadow-glow {
-          box-shadow: 0 0 6px rgba(74, 222, 128, 0.6);
-          animation: subtlePulse 2s infinite;
-        }
-      `}</style>
     </section>
   )
 }
