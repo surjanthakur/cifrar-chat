@@ -1,5 +1,10 @@
 import FeaturesSection from './FeatureSection.jsx'
-import { cn } from '../lib/utils.js'
+import { clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
+
+function cn(...inputs) {
+  return twMerge(clsx(inputs))
+}
 
 const HomePage = () => {
   return (
@@ -16,7 +21,7 @@ const HomePage = () => {
         />
 
         {/* Radial fade effect for edges */}
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black mask-[radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black" />
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black mask-[radial-gradient(ellipse_at_center,transparent_20%,black)] " />
 
         {/* Main content */}
         <div className="relative z-10 mx-auto flex min-h-screen flex-col items-center justify-center px-5 py-20 text-center md:px-8 lg:px-12">
