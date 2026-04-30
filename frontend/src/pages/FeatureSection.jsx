@@ -35,30 +35,12 @@ const FeaturesSection = () => {
 
   return (
     <section className="relative w-full overflow-hidden bg-black px-5 py-20 font-sans md:py-28 lg:py-32">
-      {/* Background depth orbs */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute left-1/2 top-1/2 h-150 w-150 -translate-x-1/2 -translate-y-1/2 rounded-full bg-green-500/5 blur-[130px]" />
-        <div className="absolute -bottom-40 -left-20 h-125 w-125 rounded-full bg-emerald-500/10 blur-[120px]" />
-        <div className="absolute -right-20 -top-40 h-125 w-125 rounded-full bg-cyan-500/5 blur-[120px]" />
-      </div>
-
-      {/* Subtle grid overlay */}
-      <div className="absolute inset-0 -z-5 bg-[linear-gradient(rgba(34,197,94,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.02)_1px,transparent_1px)] bg-size-[48px_48px]" />
-
       <div className="relative mx-auto max-w-7xl">
         {/* Headline section */}
         <div className="mb-16 text-center md:mb-20">
-          <div className="inline-flex items-center gap-2 rounded-full border border-green-500/30 bg-black/40 px-4 py-1.5 backdrop-blur-sm">
-            <span className="inline-block h-2 w-2 rounded-full bg-green-400 shadow-glow"></span>
-            <span className="text-xs uppercase tracking-wider text-green-400">
-              Zero‑trust architecture
-            </span>
-            <span className="inline-block h-2 w-2 rounded-full bg-green-400 shadow-glow"></span>
-          </div>
-
-          <h2 className="mt-6 text-3xl font-black tracking-tight text-white md:text-5xl lg:text-6xl">
+          <h2 className="mt-6 text-3xl font-black tracking-tight text-white md:text-5xl lg:text-9xl">
             <span className="bg-linear-to-r from-green-300 to-emerald-400 bg-clip-text text-transparent">
-              DON'T BURY ABOUT CHATS
+              DON'T BURY ABOUT MESSAGES
             </span>
             <br />
             <span className="relative inline-block mt-2">
@@ -81,10 +63,10 @@ const FeaturesSection = () => {
           {features.map((feature, idx) => (
             <div
               key={idx}
-              className="group relative rounded-2xl border border-green-500/20 bg-black/40 p-6 backdrop-blur-sm transition-all duration-300 hover:border-green-500/60 hover:shadow-[0_0_20px_-5px_rgba(74,222,128,0.3)] md:p-8"
+              className="group relative border rounded-tl border-green-500/20 bg-black/40 p-6 backdrop-blur-sm transition-all duration-300 hover:border-green-500/60 hover:shadow-[0_0_20px_-5px_rgba(74,222,128,0.3)] md:p-8"
             >
               {/* Card corner accent */}
-              <div className="absolute left-0 top-0 h-12 w-12 border-l-2 border-t-2 border-green-500/30 rounded-tl-2xl"></div>
+              <div className="absolute left-0 top-0 h-20 w-20 border-l-2 border-t-2 border-lime-300 rounded-tl"></div>
 
               <div className="flex items-start gap-4">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-green-500/10 text-2xl text-green-400 transition-all duration-300 group-hover:bg-green-500/20 group-hover:shadow-glow">
@@ -119,7 +101,7 @@ const FeaturesSection = () => {
         </div>
 
         {/* Trust badge row */}
-        <div className="mt-16 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-t border-green-500/20 pt-10 text-center text-xs text-gray-500">
+        <div className="mt-16 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-t border-lime-400 pt-10 text-center text-xs text-white">
           <span className="inline-flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-green-500/70"></span>
             No metadata collection
@@ -134,22 +116,6 @@ const FeaturesSection = () => {
           </span>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes subtlePulse {
-          0%,
-          100% {
-            opacity: 0.6;
-          }
-          50% {
-            opacity: 1;
-          }
-        }
-        .shadow-glow {
-          box-shadow: 0 0 6px rgba(74, 222, 128, 0.5);
-          animation: subtlePulse 2s infinite;
-        }
-      `}</style>
     </section>
   )
 }
