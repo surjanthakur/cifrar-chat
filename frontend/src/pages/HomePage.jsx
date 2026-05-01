@@ -1,11 +1,6 @@
 import FeaturesSection from './FeatureSection.jsx'
-import { clsx } from 'clsx'
-import { twMerge } from 'tailwind-merge'
+import SquareBoxEffect from '../utils/SquareGradientEffect.js'
 import { Link } from 'react-router-dom'
-
-function cn(...inputs) {
-  return twMerge(clsx(inputs))
-}
 
 const HomePage = () => {
   return (
@@ -13,16 +8,15 @@ const HomePage = () => {
       <section className="relative min-h-fit w-full overflow-hidden bg-black font-sans antialiased">
         {/* Dotted Background Pattern */}
         <div
-          className={cn(
+          className={SquareBoxEffect(
             'absolute inset-0',
             'bg-size-[20px_20px]',
             'bg-[radial-gradient(#404040_1px,transparent_1px)]',
             'dark:bg-[radial-gradient(#404040_1px,transparent_1px)]',
           )}
         />
-
         {/* Radial fade effect for edges */}
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black mask-[radial-gradient(ellipse_at_center,transparent_20%,black)] " />
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black mask-[radial-gradient(ellipse_at_center,transparent_50%,black)] " />
 
         {/* Main content */}
         <div className="relative z-10 mx-auto flex min-h-screen flex-col items-center justify-center px-5 py-20 text-center md:px-8 lg:px-12">

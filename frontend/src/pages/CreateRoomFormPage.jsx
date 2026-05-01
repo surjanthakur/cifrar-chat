@@ -1,20 +1,15 @@
 import { useState } from 'react'
 import { FaInfoCircle } from 'react-icons/fa'
-import { clsx } from 'clsx'
-import { twMerge } from 'tailwind-merge'
-
-function cn(...inputs) {
-  return twMerge(clsx(inputs))
-}
+import SquareBoxEffect from '../utils/SquareGradientEffect.js'
 
 const CreateRoomForm = () => {
   const [expiryOption, setExpiryOption] = useState('20 minutes')
   const expiryOptions = ['20 minutes', '1 hour', '6 hours', '24 hours']
 
   return (
-    <div className="relative min-h-screen bg-linear-to-br py-8 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+    <div className="relative min-h-screen bg-linear-to-br py-10 px-5 sm:px-6 lg:px-8 flex items-center justify-center">
       <div
-        className={cn(
+        className={SquareBoxEffect(
           'absolute inset-0',
           'bg-size-[20px_20px]',
           'bg-[radial-gradient(#404040_1px,transparent_1px)]',
@@ -28,8 +23,8 @@ const CreateRoomForm = () => {
           <div className="p-6 sm:p-8 space-y-6">
             {/* Username Field */}
             <div>
-              <label className="block text-gray-300 uppercase tracking-wide text-sm font-medium mb-2">
-                ENTER YOUR USERNAME
+              <label className="block text-gray-300  tracking-wide text-sm font-medium mb-2">
+                ennter your username
               </label>
               <input
                 type="text"
@@ -40,8 +35,8 @@ const CreateRoomForm = () => {
 
             {/* Room Name Field */}
             <div>
-              <label className="block text-gray-300 uppercase tracking-wide text-sm font-medium mb-2">
-                ENTER YOUR ROOM NAME
+              <label className="block text-gray-300  tracking-wide text-sm font-medium mb-2">
+                enter your room name
               </label>
               <input
                 type="text"
@@ -52,8 +47,8 @@ const CreateRoomForm = () => {
 
             {/* Access Key Section */}
             <div className="space-y-2">
-              <label className="block text-gray-300 uppercase tracking-wide text-sm font-medium mb-1">
-                GENERATE A ROOM ACCESS KEY
+              <label className="block text-gray-300  tracking-wide text-sm font-medium mb-1">
+                generate access key for your room
               </label>
               <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
                 {/* Access Key Display */}
