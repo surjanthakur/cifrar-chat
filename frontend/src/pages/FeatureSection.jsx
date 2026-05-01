@@ -34,8 +34,8 @@ const FeaturesSection = () => {
   ]
 
   return (
-    <section className="relative w-full overflow-hidden bg-black px-5 py-20 font-sans md:py-28 lg:py-32">
-      <div className="relative mx-auto max-w-7xl">
+    <section className="w-full overflow-hidden bg-black px-5 py-20 font-sans md:py-28 lg:py-32">
+      <div className="mx-auto max-w-7xl">
         {/* Headline section */}
         <div className="mb-16 text-center md:mb-20">
           <h2 className="mt-6 text-3xl font-black tracking-tight text-white md:text-5xl lg:text-9xl">
@@ -69,7 +69,7 @@ const FeaturesSection = () => {
               <div className="absolute left-0 top-0 h-20 w-20 border-l-2 border-t-2 border-lime-300 rounded-tl"></div>
 
               <div className="flex items-start gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-green-500/10 text-2xl text-green-400 transition-all duration-300 group-hover:bg-green-500/20 group-hover:shadow-glow">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-green-500/10 text-green-400 transition-all duration-300 group-hover:bg-green-500/20 group-hover:shadow-glow">
                   {feature.icon}
                 </div>
 

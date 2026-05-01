@@ -1,6 +1,6 @@
-import FeaturesSection from './FeatureSection.jsx'
-import SquareBoxEffect from '../utils/SquareGradientEffect.js'
-import { Link } from 'react-router-dom'
+import FeaturesSection from "./FeatureSection.jsx";
+import SquareBoxEffect from "../utils/SquareGradientEffect.js";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   return (
@@ -9,14 +9,13 @@ const HomePage = () => {
         {/* Dotted Background Pattern */}
         <div
           className={SquareBoxEffect(
-            'absolute inset-0',
-            'bg-size-[20px_20px]',
-            'bg-[radial-gradient(#404040_1px,transparent_1px)]',
-            'dark:bg-[radial-gradient(#404040_1px,transparent_1px)]',
+            "absolute inset-0",
+            "bg-size-[20px_20px]",
+            "bg-[radial-gradient(#404040_1px,transparent_1px)]",
           )}
         />
         {/* Radial fade effect for edges */}
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black mask-[radial-gradient(ellipse_at_center,transparent_50%,black)] " />
+        <div className="pointer-events-none absolute inset-0 bg-black mask-[radial-gradient(ellipse_at_center,transparent_50%,black)]" />
 
         {/* Main content */}
         <div className="relative z-10 mx-auto flex min-h-screen flex-col items-center justify-center px-5 py-20 text-center md:px-8 lg:px-12">
@@ -44,7 +43,7 @@ const HomePage = () => {
               {/* create room button */}
               <Link
                 to="/create-room"
-                className="group relative w-full  overflow-hidden border px-8 py-10 text-base font-semibold uppercase tracking-wider bg-linear-to-r from-green-400 via-emerald-400 to-green-300 transition-all duration-30 text-black sm:w-auto sm:px-10 md:px-12 md:text-lg"
+                className="group relative w-full overflow-hidden border bg-linear-to-r from-green-400 via-emerald-400 to-green-300 px-8 py-10 text-base font-semibold uppercase tracking-wider text-black transition-all sm:w-auto sm:px-10 md:px-12 md:text-lg"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   <span>CREATE A PRIVATE ROOM</span>
@@ -58,7 +57,7 @@ const HomePage = () => {
               {/* join room button */}
               <Link
                 to="/join-room"
-                className="group w-full px-8 py-10 text-base font-semibold uppercase tracking-wider text-white backdrop-blur-sm transition-all duration-300  bg-red-500/70 hover:opacity-70 sm:w-auto sm:px-10 md:px-12 md:text-lg"
+                className="group w-full bg-red-500/70 px-8 py-10 text-base font-semibold uppercase tracking-wider text-white backdrop-blur-sm transition-all duration-300 hover:opacity-70 sm:w-auto sm:px-10 md:px-12 md:text-lg"
               >
                 <span className="flex items-center justify-center gap-2">
                   <span>JOIN A PRIVATE ROOM</span>
@@ -73,7 +72,7 @@ const HomePage = () => {
       </section>
       <FeaturesSection />
     </>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;
