@@ -43,7 +43,7 @@ const HomePage = () => {
               {/* create room button */}
               <Link
                 to="/create-room"
-                className="group relative w-full overflow-hidden border bg-linear-to-r from-green-400 via-emerald-400 to-green-300 px-8 py-10 text-base font-semibold uppercase tracking-wider text-black transition-all sm:w-auto sm:px-10 md:px-12 md:text-lg"
+                className="group relative w-full overflow-hidden border bg-linear-to-r from-green-400 via-emerald-400 to-green-300 px-8 py-10 text-base font-semibold uppercase tracking-wider text-black transition-all duration-300 sm:w-auto sm:px-10 md:px-12 md:text-lg"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   <span>CREATE A PRIVATE ROOM</span>
