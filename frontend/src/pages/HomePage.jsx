@@ -56,14 +56,17 @@ const HomePage = () => {
               </Link>
 
               {/* join room button */}
-              <button className="group w-full px-8 py-10 text-base font-semibold uppercase tracking-wider text-white backdrop-blur-sm transition-all duration-300  bg-red-500/70 hover:opacity-70 sm:w-auto sm:px-10 md:px-12 md:text-lg">
+              <Link
+                to="/join-room"
+                className="group w-full px-8 py-10 text-base font-semibold uppercase tracking-wider text-white backdrop-blur-sm transition-all duration-300  bg-red-500/70 hover:opacity-70 sm:w-auto sm:px-10 md:px-12 md:text-lg"
+              >
                 <span className="flex items-center justify-center gap-2">
                   <span>JOIN A PRIVATE ROOM</span>
                   <span className="opacity-70 transition-transform duration-300 group-hover:translate-x-2">
                     ↗
                   </span>
                 </span>
-              </button>
+              </Link>
             </div>
           </div>
         </div>

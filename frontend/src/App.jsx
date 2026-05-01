@@ -1,10 +1,9 @@
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { lazy } from 'react'
+import { HomePage, CreateRoomForm, JoinRoomForm } from './pages/ExportFiles.js'
 
 const MainLayout = lazy(() => import('./layouts/MainLayout.jsx'))
-const HomePage = lazy(() => import('./pages/HomePage.jsx'))
-const CreateRoomForm = lazy(() => import('./pages/CreateRoomFormPage.jsx'))
 
 function App() {
   return (
@@ -14,6 +13,7 @@ function App() {
           <Route element={<MainLayout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/create-room" element={<CreateRoomForm />} />
+            <Route path="/join-room" element={<JoinRoomForm />} />
           </Route>
         </Routes>
       </BrowserRouter>
