@@ -4,6 +4,7 @@ import { lazy } from 'react'
 
 const MainLayout = lazy(() => import('./layouts/MainLayout.jsx'))
 const HomePage = lazy(() => import('./pages/HomePage.jsx'))
+const CreateRoomForm = lazy(() => import('./pages/CreateRoomFormPage.jsx'))
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route element={<MainLayout />}>
             <Route path="/" element={<HomePage />} />
+            <Route path="/create-room" element={<CreateRoomForm />} />
           </Route>
         </Routes>
       </BrowserRouter>

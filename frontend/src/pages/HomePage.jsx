@@ -1,6 +1,7 @@
 import FeaturesSection from './FeatureSection.jsx'
 import { clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import { Link } from 'react-router-dom'
 
 function cn(...inputs) {
   return twMerge(clsx(inputs))
@@ -47,7 +48,7 @@ const HomePage = () => {
             {/* Call to action buttons */}
             <div className="mt-12 flex w-full flex-col items-center justify-center gap-7 sm:flex-row sm:gap-6">
               {/* create room button */}
-              <button className="group relative w-full  overflow-hidden border px-8 py-10 text-base font-semibold uppercase tracking-wider bg-linear-to-r from-green-400 via-emerald-400 to-green-300 transition-all duration-30 text-black sm:w-auto sm:px-10 md:px-12 md:text-lg">
+              <Link to="/create-room">
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   <span>CREATE A PRIVATE ROOM</span>
                   <span className="transition-transform duration-300 group-hover:translate-x-2">
@@ -55,7 +56,7 @@ const HomePage = () => {
                   </span>
                 </span>
                 <span className="absolute inset-0 z-0 bg-linear-to-r from-green-400 to-emerald-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
-              </button>
+              </Link>
 
               {/* join room button */}
               <button className="group w-full px-8 py-10 text-base font-semibold uppercase tracking-wider text-white backdrop-blur-sm transition-all duration-300  bg-red-500/70 hover:opacity-70 sm:w-auto sm:px-10 md:px-12 md:text-lg">
