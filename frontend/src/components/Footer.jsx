@@ -1,5 +1,3 @@
-import SocialLinks from "../components/SocialLinks.jsx";
-
 const Footer = () => {
   return (
     <footer className="relative w-full h-120 overflow-hidden">
@@ -10,12 +8,6 @@ const Footer = () => {
           CIFRAR
         </h1>
       </div>
-
-      {/* Social Icons at Top Right */}
-      <div className="absolute bottom-4 right-1 flex gap-6">
-        <SocialLinks />
-      </div>
-
       {/* Means to Encrypt at Bottom Center */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
         <p className="text-white text-lg  tracking-[0.2em]">means to encrypt</p>
