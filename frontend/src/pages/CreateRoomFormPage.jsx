@@ -1,13 +1,8 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaShieldAlt, FaCopy, FaBolt, FaInfoCircle } from "react-icons/fa";
-import { IoMdRefresh } from "react-icons/io";
+import { FaShieldAlt, FaBolt, FaInfoCircle } from "react-icons/fa";
 import SquareBoxEffect from "../utils/SquareGradientEffect";
 
 const CreateRoomForm = () => {
-  const [selectedExpiry, setSelectedExpiry] = useState("20 minutes");
-  const [copied] = useState(false);
-
   const {
     register,
     formState: { errors },
@@ -17,13 +12,6 @@ const CreateRoomForm = () => {
       roomName: "",
     },
   });
-
-  const expiryOptions = [
-    { label: "20 minutes", value: "20 minutes" },
-    { label: "30 minutes", value: "30 minutes" },
-    { label: "50 minutes", value: "50 minutes" },
-    { label: "1.5 hours", value: "1.5 hours" },
-  ];
 
   return (
     <section className="min-h-screen flex items-center justify-center p-4 relative">
@@ -100,69 +88,16 @@ const CreateRoomForm = () => {
             )}
           </div>
 
-          {/* Access Key Section */}
-          <div>
-            <label className="block text-sm font-medium mb-2 tracking-wider">
-              CREATE A ROOM ACCESS KEY
-            </label>
-            <div className="flex gap-3">
-              <input
-                className="flex-1 bg-zinc-900 border border-green-500/50 rounded-lg px-4 py-3 text-green-400 font-mono text-sm break-all select-text"
-                readOnly
-                placeholder="generate random key"
-              ></input>
-              <button
-                type="button"
-                tabIndex={0}
-                className="px-6 hover:bg-emerald-800 border border-green-500/50 hover:border-green-400 bg-emerald-600 rounded-lg transition-all flex items-center justify-center active:scale-95"
-              >
-                <IoMdRefresh size={20} />
-              </button>
-            </div>
-          </div>
-
-          {/* Expiry Date */}
-          <div>
-            <label
-              className="block text-sm font-medium mb-3 tracking-wider"
-              htmlFor="expiry-select"
-            >
-              ROOM EXPIRY DATE
-            </label>
-            <select
-              id="expiry-select"
-              value={selectedExpiry}
-              onChange={(e) => setSelectedExpiry(e.target.value)}
-              className="w-full bg-zinc-900 border border-green-500/50 focus:border-green-400 rounded-lg px-4 py-3 outline-none text-sm transition-all"
-            >
-              {expiryOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
           {/* Warning Note */}
           <div className="bg-zinc-900/90 border border-green-500/30 rounded-lg p-4 flex gap-3 items-start">
             <div className="text-orange-400 mt-0.5">
               <FaInfoCircle size={24} />
             </div>
             <p className="text-sm leading-relaxed">
-              Before creating a room please copy the access key so that you can
+              after creating a room we provide you a access key so that you can
               share with your friends to join the room.
             </p>
           </div>
-
-          {/* Copy Key Button */}
-          <button
-            type="button"
-            className={`w-full bg-zinc-900 hover:bg-zinc-800 border border-green-500/50 hover:border-green-400 py-3 rounded-lg flex items-center justify-center gap-2 transition-all active:scale-95 ${copied ? "border-green-400" : ""}`}
-            tabIndex={0}
-          >
-            <FaCopy />
-            {copied ? "COPIED!" : "COPY ACCESS KEY"}
-          </button>
 
           {/* Create Room Button */}
           <button
