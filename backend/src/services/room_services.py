@@ -1,5 +1,7 @@
 from fastapi import HTTPException, status
 from ..schemas.rooms import createRoomsRequest, createRoomsResponse
+from ..utils.rooms_utils import generate_room_key
+import asyncio
 
 
 async def create_rooms(room_details: createRoomsRequest) -> createRoomsResponse:
