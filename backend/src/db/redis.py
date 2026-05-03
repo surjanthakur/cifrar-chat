@@ -14,19 +14,23 @@ redis_client = redis.Redis(
 )
 
 
+# function to check redis connection
 async def check_redis_connection() -> None:
     try:
         await redis_client.ping()
         logger.info(msg="redis connection established successfully.")
     except (RedisError, TimeoutError, TryAgainError, ConnectionError) as error:
         logger.warning(msg=f"Redis connection failed: {error}")
-        raise RuntimeError("redis in unavailable.") from error
+        raise RuntimeError("redis is unavailable.") from error
 
 
+# func to close redis connection
 async def close_redis_connection():
     try:
         await redis_client.close()
-        logger.info("redis connection closed")
+        logger.info(msg="redis connection closed")
     except (RedisError, ConnectionError) as error:
-        logger.warning(f"redis connection error while closing connection:: {error}")
-        raise Exception(error)
+        logger.warning(msg=f"redis connection error while closing connection:: {error}")
+        raise RuntimeError(
+            "redis connection error while closing connection."
+        ) from error
