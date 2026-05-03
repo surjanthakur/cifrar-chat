@@ -1,4 +1,4 @@
-from fastapi import FastAPI, status
+from fastapi import FastAPI
 
 
 app = FastAPI()
@@ -6,4 +6,4 @@ app = FastAPI()
 
 @app.get("/health")
 def check_health():
-    return {status: 200}
+    return {"status": "ok"}

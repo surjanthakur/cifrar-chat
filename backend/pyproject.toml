@@ -6,5 +6,6 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "fastapi[standard]>=0.136.1",
+    "redis>=7.4.0",
     "uvicorn>=0.46.0",
 ]
