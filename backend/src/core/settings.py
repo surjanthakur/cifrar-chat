@@ -7,7 +7,8 @@ env_file_path = Path(__file__).resolve().parents[2] / ".env"
 
 class Settings(BaseSettings):
     """
-    with this class we can access env variable in any file in folder
+    Settings for the application loaded from environment variables or a .env file.
+
     """
 
     redis_username: str

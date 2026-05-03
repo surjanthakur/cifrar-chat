@@ -1,11 +1,13 @@
-from fastapi import FastAPI, status
-from contextlib import asynccontextmanager
-from .core.logging import setup_logging
-from .db.redis import check_redis_connection, close_redis_connection
 import logging
 
-setup_logging(level="INFO", app_name="cifrar-chat")
+from fastapi import FastAPI
+from contextlib import asynccontextmanager
 
+from .core.logging import setup_logging
+from .db.redis import check_redis_connection, close_redis_connection
+
+# setup logging
+setup_logging(level="INFO", app_name="cifrar-chat")
 logger = logging.getLogger(__name__)
 
 
