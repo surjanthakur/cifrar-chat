@@ -1,12 +1,24 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, status
+from contextlib import asynccontextmanager
 from .core.logging import setup_logging
+from .db.redis import check_redis_connection, close_redis_connection
 import logging
 
 setup_logging(level="INFO", app_name="cifrar-chat")
 
 logger = logging.getLogger(__name__)
 
-app = FastAPI(title="cifrar-chat", version=0.1)
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    try:
+        await check_redis_connection()
+    except Exception as err:
+        logger.error(msg=f"Error occurred while checking redis connection: {err}")
+        await close_redis_connection()
+
+
+app = FastAPI(lifespan=lifespan, title="cifrar-chat", version=0.1)
 
 
 @app.get("/health")

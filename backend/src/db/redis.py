@@ -11,6 +11,7 @@ redis_client = redis.Redis(
     password=settings.redis_password,
     username=settings.redis_username,
     decode_responses=True,
+    retry_on_timeout=True,
 )
 
 
