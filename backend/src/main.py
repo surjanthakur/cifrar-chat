@@ -15,9 +15,12 @@ logger = logging.getLogger(__name__)
 async def lifespan(app: FastAPI):
     try:
         await check_redis_connection()
-    except Exception as err:
-        logger.error(msg=f"Error occurred while checking redis connection: {err}")
-        await close_redis_connection()
+    except Exception:
+        raise
+    yield
+    # Cleanup on shutdown
+
+    await close_redis_connection()
 
 
 app = FastAPI(lifespan=lifespan, title="cifrar-chat", version=0.1)

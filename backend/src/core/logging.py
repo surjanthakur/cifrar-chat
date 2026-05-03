@@ -1,7 +1,6 @@
 import logging
 import logging.config
 from typing import Any, Optional
-from __future__ import annotations
 
 
 def setup_logging(*, level: str = "INFO", app_name: Optional[str] = None) -> None:
