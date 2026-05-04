@@ -1,4 +1,11 @@
-from fastapi import APIRouter, status
+from fastapi import (
+    APIRouter,
+    status,
+    WebSocket,
+    WebSocketDisconnect,
+    WebSocketException,
+)
+from pydantic import Field
 from ..schemas.rooms import createRoomsRequest, createRoomsResponse
 from ..services.room_services import create_room_service
 
@@ -22,3 +29,8 @@ async def create_room(room_data: createRoomsRequest):
         room_name=room_data.room_name,
         room_owner=room_data.room_owner,
     )
+
+
+@Router.websocket("/join")
+async def join_room_websocket_endpoint(websocket: WebSocket):
+    pass

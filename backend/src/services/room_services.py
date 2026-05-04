@@ -3,7 +3,7 @@ import uuid
 import logging
 from datetime import datetime
 
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status, WebSocket
 from redis.exceptions import RedisError, ConnectionError, TimeoutError
 
 from ..utils.rooms_utils import generate_room_key
@@ -51,3 +51,17 @@ async def create_room_service(room_name: str, room_owner: str):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="something went wrong try again!",
         )
+
+
+# ? class to manage all ws events
+class WebsocketConnectionManager:
+    def __init__(self):
+        self.active_ws_connections = {}
+
+    async def connect(self, websocket: WebSocket):
+        pass
+
+
+async def join_room_service(websocket: WebSocket):
+    username = websocket.query_params.get("username")
+    acces_key = websocket.query_params.get("room_access_key")

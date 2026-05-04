@@ -28,13 +28,13 @@ async def lifespan(app: FastAPI):
     except Exception as err:
         raise RuntimeError(f"error on startup app {err}")
     finally:
-        close_redis_connection()
+        await close_redis_connection()
 
 
 app = FastAPI(lifespan=lifespan, title="cifrar-chat", version="0.1")
 
 
-@app.get("/health")
+@app.get("/health", tags=["health check endpoint"])
 def check_health():
     """Health check endpoint to verify if the application is running."""
     return {"status": "ok"}
