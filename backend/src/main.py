@@ -7,6 +7,7 @@ from contextlib import asynccontextmanager
 
 from .core.logging import setup_logging
 from .db.redis import check_redis_connection, close_redis_connection
+from .routes import room_router
 
 # setup logging
 setup_logging(level="INFO", app_name="cifrar-chat")
@@ -45,3 +46,7 @@ async def log_request(
         msg=f"method:{request.method} url:{request.url} took:{process_time:.2f}seconds to complete"
     )
     return response
+
+
+# routes
+app.include_router(router=room_router.Router, prefix="/api")

@@ -2,10 +2,10 @@ from fastapi import APIRouter, status
 from ..schemas.rooms import createRoomsRequest, createRoomsResponse
 from ..services.room_services import create_rooms
 
-rooms_router = APIRouter(tags=["chat-rooms"], prefix="/rooms")
+Router = APIRouter(tags=["chat-rooms"], prefix="/rooms")
 
 
-@rooms_router.post(
+@Router.post(
     "/",
     status_code=status.HTTP_201_CREATED,
     response_model=createRoomsResponse,
