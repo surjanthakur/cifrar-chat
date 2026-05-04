@@ -1,7 +1,6 @@
 import logging
 import time
 from typing import Callable, Awaitable
-import uvicorn
 
 from fastapi import FastAPI, Request, Response
 from contextlib import asynccontextmanager
@@ -51,7 +50,3 @@ async def log_request(
 
 # routes
 app.include_router(room_router.Router, prefix="/api")
-
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="localhost", port=8000, log_level="info", reload=True)
