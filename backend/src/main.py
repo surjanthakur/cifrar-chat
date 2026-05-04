@@ -38,10 +38,10 @@ async def log_request(
     request: Request, call_next: Callable[[Request], Awaitable[Response]]
 ) -> Response:
     start_time = time.time()
-    response = call_next(request)
+    response = await call_next(request)
     process_time = time.time() - start_time
-    Response.headers["x-process-time"] = str(process_time)
+    response.headers["x-process-time"] = str(process_time)
     logger.info(
-        msg=f"method:{request.method} url: {request.url} time:{process_time:.2f}seconds"
+        msg=f"method:{request.method} url:{request.url} took:{process_time:.2f}seconds to complete"
     )
     return response
