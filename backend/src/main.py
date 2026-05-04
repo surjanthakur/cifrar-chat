@@ -49,4 +49,4 @@ async def log_request(
 
 
 # routes
-app.include_router(router=room_router.Router, prefix="/api")
+app.include_router(room_router.Router, prefix="/api")
