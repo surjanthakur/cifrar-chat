@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status
 from ..schemas.rooms import createRoomsRequest, createRoomsResponse
-from ..services.room_services import create_rooms
+from ..services.room_services import create_room_service
 
 Router = APIRouter(tags=["chat-rooms"], prefix="/rooms")
 
@@ -18,4 +18,7 @@ async def create_room(room_data: createRoomsRequest):
     :type room_data: createRoomsRequest
     :return: A response containing the details of the created chat room.
     """
-    return await create_rooms(room_details=room_data)
+    return await create_room_service(
+        room_name=room_data.room_name,
+        room_owner=room_data.room_owner,
+    )

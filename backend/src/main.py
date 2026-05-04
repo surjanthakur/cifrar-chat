@@ -9,7 +9,7 @@ from .core.logging import setup_logging
 from .db.redis import check_redis_connection, close_redis_connection
 from .routes import room_router
 
-# setup logging
+
 setup_logging(level="INFO", app_name="cifrar-chat")
 logger = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ async def lifespan(app: FastAPI):
     await close_redis_connection()
 
 
-app = FastAPI(lifespan=lifespan, title="cifrar-chat", version=0.1)
+app = FastAPI(lifespan=lifespan, title="cifrar-chat", version="0.1")
 
 
 @app.get("/health")
