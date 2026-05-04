@@ -1,5 +1,6 @@
 from fastapi import APIRouter, status
 from ..schemas.rooms import createRoomsRequest, createRoomsResponse
+from ..services.room_services import create_rooms
 
 rooms_router = APIRouter(tags=["chat-rooms"], prefix="/rooms")
 
@@ -13,9 +14,8 @@ rooms_router = APIRouter(tags=["chat-rooms"], prefix="/rooms")
 )
 def create_room(room_data: createRoomsRequest):
     """
-    Docstring for create_room endpoint.
     :param room_data: The data required to create a new chat room, including the room name and owner name.
     :type room_data: createRoomsRequest
     :return: A response containing the details of the created chat room.
     """
-    pass
+    return create_rooms(room_details=room_data)
