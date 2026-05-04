@@ -18,17 +18,8 @@ logger = logging.getLogger(__name__)
 async def lifespan(app: FastAPI):
     """
     Lifespan context manager for the FastAPI application.
-
     Ensures Redis connection is available at startup and properly
     closed during application shutdown.
-
-    Args:
-        app (FastAPI): The FastAPI application instance.
-
-    Yields:
-        None
-    Raises:
-        RuntimeError: If there is an error during app startup related to Redis connection.
     """
 
     try:
