@@ -60,6 +60,7 @@ async def create_room_service(room_name: str, room_owner: str):
 
 
 async def join_room_service(websocket: WebSocket):
+
     username = websocket.query_params.get("username")
     access_key = websocket.query_params.get("room_access_key")
 
