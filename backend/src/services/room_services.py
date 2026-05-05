@@ -7,7 +7,6 @@ from fastapi import (
     HTTPException,
     status,
     WebSocket,
-    WebSocketDisconnect,
     WebSocketException,
 )
 from redis.exceptions import RedisError, ConnectionError, TimeoutError
@@ -81,6 +80,7 @@ async def join_room_service(websocket: WebSocket):
 
     user_id = str(uuid.uuid4())
     user_connection_id = str(uuid.uuid4())
+
     await socketManager.accept_connection(
         websocket=websocket,
         room_id=room_id,

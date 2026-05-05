@@ -4,7 +4,7 @@ from fastapi import (
     WebSocket,
 )
 from ..schemas.rooms import createRoomsRequest, createRoomsResponse
-from ..services.room_services import create_room_service
+from ..services.room_services import create_room_service, join_room_service
 
 Router = APIRouter(tags=["chat-rooms"], prefix="/rooms")
 
@@ -30,4 +30,11 @@ async def create_room(room_data: createRoomsRequest):
 
 @Router.websocket("/join")
 async def join_room_websocket_endpoint(websocket: WebSocket):
-    pass
+    """
+    WebSocket endpoint for joining a chat room.
+
+    This endpoint allows clients to join a chat room via a WebSocket connection.
+    The client must provide their username and the room's access key as query parameters.
+    Upon successful connection, the user is added to the room and their connection details are tracked.
+    """
+    return await join_room_service(websocket)

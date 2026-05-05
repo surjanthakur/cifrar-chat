@@ -1,5 +1,5 @@
 import secrets
-from fastapi import WebSocket
+from fastapi import WebSocket, WebSocketDisconnect
 from ..db.redis import redis_client
 
 
@@ -19,7 +19,7 @@ class WebsocketConnectionManager:
     """
 
     def __init__(self):
-        self.active_connections = dict[str, WebSocket] = {}
+        self.active_connections = {}
 
     async def accept_connection(
         self, websocket: WebSocket, room_id: str, connection_id: str
@@ -78,6 +78,10 @@ class WebsocketConnectionManager:
                 "room_id": f"{room_id}",
             },
         )
+
+    async def brodcast_messages():
+        """function to brodcast messages in websocket connections"""
+        pass
 
 
 socketManager = WebsocketConnectionManager()
