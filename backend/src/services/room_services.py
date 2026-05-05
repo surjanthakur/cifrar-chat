@@ -3,7 +3,13 @@ import uuid
 import logging
 from datetime import datetime
 
-from fastapi import HTTPException, status, WebSocket
+from fastapi import (
+    HTTPException,
+    status,
+    WebSocket,
+    WebSocketDisconnect,
+    WebSocketException,
+)
 from redis.exceptions import RedisError, ConnectionError, TimeoutError
 
 from ..utils.rooms_utils import generate_room_key
@@ -64,4 +70,11 @@ class WebsocketConnectionManager:
 
 async def join_room_service(websocket: WebSocket):
     username = websocket.query_params.get("username")
-    acces_key = websocket.query_params.get("room_access_key")
+    access_key = websocket.query_params.get("room_access_key")
+
+    if not username and not access_key:
+        await websocket.close()
+        raise WebSocketException(
+            code=status.WS_1007_INVALID_FRAME_PAYLOAD_DATA,
+            reason="please fill the required fields",
+        )

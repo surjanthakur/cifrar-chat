@@ -2,10 +2,7 @@ from fastapi import (
     APIRouter,
     status,
     WebSocket,
-    WebSocketDisconnect,
-    WebSocketException,
 )
-from pydantic import Field
 from ..schemas.rooms import createRoomsRequest, createRoomsResponse
 from ..services.room_services import create_room_service
 
