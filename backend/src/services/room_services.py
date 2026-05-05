@@ -59,15 +59,6 @@ async def create_room_service(room_name: str, room_owner: str):
         )
 
 
-# ? class to manage all ws events
-class WebsocketConnectionManager:
-    def __init__(self):
-        self.active_ws_connections = {}
-
-    async def connect(self, websocket: WebSocket):
-        pass
-
-
 async def join_room_service(websocket: WebSocket):
     username = websocket.query_params.get("username")
     access_key = websocket.query_params.get("room_access_key")
@@ -78,3 +69,11 @@ async def join_room_service(websocket: WebSocket):
             code=status.WS_1007_INVALID_FRAME_PAYLOAD_DATA,
             reason="please fill the required fields",
         )
+
+    room_id = await redis_client.get(f"key:{access_key}")
+    if not room_id:
+        await websocket.close(
+            code=status.WS_1008_POLICY_VIOLATION,
+            reason="wrong creadentials try again.",
+        )
+        return
