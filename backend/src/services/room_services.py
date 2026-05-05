@@ -12,7 +12,7 @@ from fastapi import (
 )
 from redis.exceptions import RedisError, ConnectionError, TimeoutError
 
-from ..utils.rooms_utils import generate_room_key
+from ..utils.rooms_utils import generate_room_key, socketManager
 from ..db.redis import redis_client
 
 logger = logging.getLogger(__name__)
@@ -74,7 +74,22 @@ async def join_room_service(websocket: WebSocket):
     room_id = await redis_client.get(f"key:{access_key}")
     if not room_id:
         await websocket.close(
-            code=status.WS_1008_POLICY_VIOLATION,
-            reason="wrong creadentials try again.",
+            code=status.WS_1007_INVALID_FRAME_PAYLOAD_DATA,
+            reason="room don't exist",
         )
         return
+
+    user_id = str(uuid.uuid4())
+    user_connection_id = str(uuid.uuid4())
+    await socketManager.accept_connection(
+        websocket=websocket,
+        room_id=room_id,
+        connection_id=user_connection_id,
+    )
+    await socketManager.add_to_redis(
+        room_id=room_id,
+        connection_id=user_connection_id,
+        user_id=user_id,
+        access_key=access_key,
+        username=username,
+    )
