@@ -24,6 +24,17 @@ class WebsocketConnectionManager:
     async def accept_connection(
         self, websocket: WebSocket, room_id: str, connection_id: str
     ):
+        """
+        Accepts a new WebSocket connection for a given room and connection ID.
+
+        Args: websocket (WebSocket): The WebSocket connection to accept.
+        room_id (str): The unique identifier of the room the user is joining.
+        connection_id (str): The unique identifier for this WebSocket connection.
+
+        This method accepts the WebSocket connection and registers it in the
+        active connections dictionary as well as adds the connection ID to
+        the Redis set of active connections for the specified room.
+        """
         await websocket.accept()
         self.active_connections[connection_id] = websocket
         await redis_client.sadd(f"room:{room_id}:connections", connection_id)
@@ -36,6 +47,19 @@ class WebsocketConnectionManager:
         room_id: str,
         connection_id: str,
     ):
+        """
+        Adds user and connection details to Redis for tracking room membership and connections.
+
+        Args:
+            username (str): The username of the client joining the room.
+            access_key (str): The access key associated with the room.
+            user_id (str): The unique identifier of the user.
+            room_id (str): The unique identifier of the room.
+            connection_id (str): The unique identifier for the client's WebSocket connection.
+
+        This method stores the user information, associates the user with the room,
+        tracks the connection, and ensures the connection details are available in Redis.
+        """
         await redis_client.hset(
             name=f"user:{user_id}",
             mapping={
