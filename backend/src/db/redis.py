@@ -19,21 +19,36 @@ redis_client = redis.Redis(
 
 # function to check redis connection
 async def check_redis_connection() -> None:
+    """
+    Check if the Redis connection is alive and raise an explicit error if not.
+
+    Raises:
+        RuntimeError: If Redis is unavailable or ping fails.
+    """
     try:
-        await redis_client.ping()
-        logger.info(msg="redis connection established successfully.")
+        pong = await redis_client.ping()
+        if pong is True:
+            logger.info("Redis connection established successfully.")
+        else:
+            logger.warning("Received unexpected response from Redis ping: %s", pong)
+            raise RuntimeError("Unexpected Redis ping response.")
     except (RedisError, TimeoutError, TryAgainError, ConnectionError) as error:
-        logger.warning(msg=f"Redis connection failed: {error}")
-        raise RuntimeError("redis is unavailable.") from error
+        logger.error("Redis connection failed: %s", error)
+        raise RuntimeError("Redis is unavailable.") from error
 
 
 # func to close redis connection
 async def close_redis_connection():
+    """
+    Gracefully closes the Redis connection, logging the outcome.
+
+    Raises:
+        RuntimeError: If an error occurs when closing the Redis connection.
+    """
     try:
         await redis_client.close()
-        logger.info(msg="redis connection closed")
-    except (RedisError, ConnectionError) as error:
-        logger.warning(msg=f"redis connection error while closing connection:: {error}")
-        raise RuntimeError(
-            "redis connection error while closing connection."
-        ) from error
+        # Optionally, redis_client.close() may return None or awaitable. Log for debugging.
+        logger.info("Redis connection closed successfully.")
+    except (RedisError, ConnectionError, TimeoutError, TryAgainError) as error:
+        logger.exception("Error closing Redis connection: %s", error)
+        raise RuntimeError("Failed to close Redis connection.") from error
