@@ -9,6 +9,7 @@ from ..services.room_services import create_room_service, join_room_service
 Router = APIRouter(tags=["chat-rooms"], prefix="/rooms")
 
 
+# create room
 @Router.post(
     "/",
     status_code=status.HTTP_201_CREATED,
@@ -28,6 +29,7 @@ async def create_room(room_data: createRoomsRequest):
     )
 
 
+# join room
 @Router.websocket("/join")
 async def join_room_websocket_endpoint(websocket: WebSocket):
     """
