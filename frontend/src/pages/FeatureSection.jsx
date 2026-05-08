@@ -4,32 +4,32 @@ const FeaturesSection = () => {
   const features = [
     {
       icon: <LockIcon />,
-      title: 'SECURE CONNECTIONS',
+      title: 'PRIVATE ROOM ACCESS',
       stat: null,
       description:
-        'we use hashing room id to create unique id for each room and its protected with the hashing algorithms.',
+        'Each chat runs inside a unique private room ID so only people with the room link/code can join the conversation.',
     },
     {
       icon: <Zap />,
-      title: 'LATENCY_0.02ms',
-      stat: '0.02ms',
-      accent: 'INSTANT MESSAGES',
+      title: 'REAL-TIME DELIVERY',
+      stat: null,
+      accent: 'WEBSOCKET + PUBSUB',
       description:
-        'we use websockets and pubsub to deliver your messages with faster and low latency.',
+        'Messages are delivered live using WebSockets and Pub/Sub for a fast chat experience.',
     },
     {
       icon: <Eraser />,
       title: 'TEMPORARY IDENTITY',
       stat: null,
       description:
-        'No accounts. No passwords to leak. Your identity is a temporary session hash that dissolves when you close the tab.',
+        'No permanent account required. Users join with temporary room sessions instead of long-term profiles.',
     },
     {
       icon: <Trash />,
-      title: 'AUTO-WIPE',
+      title: '2-HOUR AUTO CLEANUP',
       stat: null,
       description:
-        'All room history is stored in RAM only. Closing the session triggers an immediate cryptographic shredding of all data.',
+        'Rooms expire after 2 hours. Room messages and user session info are deleted to avoid persistent data storage.',
     },
   ]
 
@@ -40,20 +40,21 @@ const FeaturesSection = () => {
         <div className="mb-16 text-center md:mb-20">
           <h2 className="mt-6 text-3xl font-black tracking-tight text-white md:text-5xl lg:text-9xl">
             <span className="bg-linear-to-r from-green-300 to-emerald-400 bg-clip-text text-transparent">
-              DON'T BURY ABOUT MESSAGES
+              BUILT FOR TEMPORARY
             </span>
             <br />
             <span className="relative inline-block mt-2">
-              ITS ENCRYPTED
+              PRIVATE CHATS
               <span className="absolute -bottom-2 left-0 h-0.5 w-full bg-linear-to-r from-transparent via-green-400 to-transparent"></span>
             </span>
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-gray-300 md:text-lg">
-            Communication bypasses our servers. We never see your messages
-            because we physically cannot.{' '}
+            We currently provide private temporary rooms, not end-to-end
+            encryption. Rooms auto-expire in 2 hours, and chat/session data is
+            removed after expiry.{' '}
             <span className="font-semibold text-green-400">
-              Your browser is the terminal.
+              No long-term room history.
             </span>
           </p>
         </div>
@@ -104,15 +105,15 @@ const FeaturesSection = () => {
         <div className="mt-16 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-t border-white/20 pt-10 text-center text-xs text-white">
           <span className="inline-flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-green-500/70"></span>
-            No metadata collection
+            Private room code access
           </span>
           <span className="inline-flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-green-500/70"></span>
-            Ephemeral by design
+            Auto-delete after 2 hours
           </span>
           <span className="inline-flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-green-500/70"></span>
-            Open WebSocket backbone
+            Realtime WebSocket chat
           </span>
         </div>
       </div>

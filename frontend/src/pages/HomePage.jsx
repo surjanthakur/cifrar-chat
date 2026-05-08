@@ -23,20 +23,26 @@ const HomePage = () => {
             {/* Top tagline with pill design */}
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-green-500/30 bg-black/60 px-5 py-2 text-sm font-medium uppercase tracking-wider text-green-400 shadow-lg shadow-green-500/10 backdrop-blur-sm md:mb-8">
               <span className="inline-block h-2 w-2 rounded-full bg-green-400 shadow-glow"></span>
-              <span>🔒 no one see what you do here</span>
+              <span>PRIVATE TEMP ROOM - AUTO DELETE IN 2 HOURS</span>
               <span className="inline-block h-2 w-2 rounded-full bg-green-400 shadow-glow"></span>
             </div>
 
             {/* Main heading */}
             <h1 className="mb-4 text-4xl font-black leading-tight tracking-tight md:text-8xl lg:text-9xl">
               <span className="block bg-linear-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent">
-                PRIVACY WITH
+                PRIVATE CHAT
               </span>
               <span className="relative mt-2 inline-block bg-linear-to-r from-green-400 via-emerald-400 to-green-300 bg-clip-text text-transparent drop-shadow-[0_0_12px_rgba(74,222,128,0.3)]">
-                ENCRYPTED CHATS
+                ZERO LONG-TERM STORAGE
                 <span className="absolute -bottom-2 left-0 h-0.75 w-full bg-linear-to-r from-transparent via-green-400 to-transparent opacity-70"></span>
               </span>
             </h1>
+
+            <p className="mx-auto mt-6 max-w-3xl text-sm leading-relaxed text-gray-300 md:text-lg">
+              We currently provide private chat rooms, not end-to-end encryption.
+              Rooms automatically expire after 2 hours, and room messages plus user
+              session data are removed to avoid persistent storage.
+            </p>
 
             {/* Call to action buttons */}
             <div className="mt-12 flex w-full flex-col items-center justify-center gap-7 sm:flex-row sm:gap-6">
@@ -46,7 +52,7 @@ const HomePage = () => {
                 className="group relative w-full overflow-hidden border bg-linear-to-r from-green-400 via-emerald-400 to-green-300 px-8 py-10 text-base font-semibold uppercase tracking-wider text-black transition-all duration-300 sm:w-auto sm:px-10 md:px-12 md:text-lg"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
-                  <span>CREATE A PRIVATE ROOM</span>
+                  <span>CREATE A 2-HOUR ROOM</span>
                   <span className="transition-transform duration-300 group-hover:translate-x-2">
                     →
                   </span>
@@ -60,7 +66,7 @@ const HomePage = () => {
                 className="group w-full bg-red-500/70 px-8 py-10 text-base font-semibold uppercase tracking-wider text-white backdrop-blur-sm transition-all duration-300 hover:opacity-70 sm:w-auto sm:px-10 md:px-12 md:text-lg"
               >
                 <span className="flex items-center justify-center gap-2">
-                  <span>JOIN A PRIVATE ROOM</span>
+                  <span>JOIN TEMPORARY ROOM</span>
                   <span className="opacity-70 transition-transform duration-300 group-hover:translate-x-2">
                     ↗
                   </span>
