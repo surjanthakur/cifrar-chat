@@ -1,19 +1,84 @@
-<header class="border-b border-emerald-500/40 bg-black/90 backdrop-blur">
-  <div
-    class="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8"
-  >
-    <a
-      href="/"
-      class="text-base font-bold uppercase tracking-[0.2em] text-emerald-400 sm:text-lg"
+<!-- Navbar Component -->
+<header
+  class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50"
+>
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo -->
+      <div class="flex items-center">
+        <a
+          href="/"
+          class="flex items-center gap-2 text-2xl font-bold text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-500 transition-colors"
+        >
+          <i class="fa-brands fa-rocketchat"></i>
+          <span>Cifrar</span>
+        </a>
+      </div>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center gap-x-8">
+        <a
+          href="#features"
+          class="flex items-center gap-1.5 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors"
+        >
+          <i class="fa-solid fa-list-check"></i>
+          <span>Features</span>
+        </a>
+
+        <a
+          href="https://github.com/Surjanthakur/cifrar-chat"
+          target="_blank"
+          class="flex items-center gap-1.5 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors"
+        >
+          <i class="fa-brands fa-github"></i>
+          <span>GitHub</span>
+        </a>
+      </div>
+
+      <!-- Right Side -->
+      <div class="flex items-center gap-4">
+        <!-- Theme Toggle (optional) -->
+        <button
+          id="theme-toggle"
+          class="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+        >
+          <i class="fa-solid fa-moon text-lg"></i>
+        </button>
+
+        <!-- Mobile Menu Button -->
+        <button
+          id="mobile-menu-button"
+          class="md:hidden p-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+        >
+          <i class="fa-solid fa-bars text-2xl"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div
+      id="mobile-menu"
+      class="hidden md:hidden border-t border-gray-200 dark:border-gray-800 py-4"
     >
-      Cifrar Chat
-    </a>
-    <nav
-      class="hidden items-center gap-6 text-sm font-medium text-zinc-200 md:flex"
-    >
-      <a href="#features" class="transition hover:text-emerald-400">Features</a>
-      <a href="#security" class="transition hover:text-emerald-400">Security</a>
-      <a href="#contact" class="transition hover:text-emerald-400">Contact</a>
-    </nav>
-  </div>
+      <div class="flex flex-col gap-4 px-2">
+        <a
+          href="#features"
+          class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl font-medium"
+        >
+          <i class="fa-solid fa-list-check w-5"></i>
+          Features
+        </a>
+
+        <a
+          href="https://github.com/yourusername/yourrepo"
+          target="_blank"
+          class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl font-medium"
+        >
+          <i class="fa-brands fa-github w-5"></i>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </nav>
+  <script src="../static/js/nav.js"></script>
 </header>
