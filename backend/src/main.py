@@ -36,6 +36,7 @@ app = FastAPI(lifespan=lifespan, title="cifrar-chat", version="0.1")
 
 origins = ["http://localhost:5173"]
 
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
