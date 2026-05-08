@@ -1,6 +1,7 @@
 import logging
 import time
 from typing import Callable, Awaitable
+from pathlib import Path
 
 from fastapi import FastAPI, Request, Response
 from contextlib import asynccontextmanager
@@ -33,7 +34,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan, title="cifrar-chat", version="0.1")
-templates = Jinja2Templates(directory="./templates")
+templates_dir = Path(__file__).resolve().parent / "templates"
+templates = Jinja2Templates(directory=str(templates_dir))
 
 
 # health check route
@@ -46,7 +48,7 @@ def check_health():
 # render main page
 @app.get("/")
 async def Home_page(req: Request):
-    return templates.TemplateResponse(request=req, name="layouts/main_layout.html")
+    return templates.TemplateResponse(request=req, name="layouts/main_layout.jinja")
 
 
 @app.middleware("http")
