@@ -8,10 +8,6 @@ const Footer = () => {
           CIFRAR
         </h1>
       </div>
-      {/* Means to Encrypt at Bottom Center */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
-        <p className="text-white text-lg  tracking-[0.2em]">means to encrypt</p>
-      </div>
     </footer>
   );
 };
