@@ -4,6 +4,7 @@ from typing import Callable, Awaitable
 
 from fastapi import FastAPI, Request, Response
 from contextlib import asynccontextmanager
+from fastapi.templating import Jinja2Templates
 
 from .core.logging import setup_logging
 from .db.redis import check_redis_connection, close_redis_connection
@@ -32,12 +33,20 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan, title="cifrar-chat", version="0.1")
+templates = Jinja2Templates(directory="./templates")
 
 
+# health check route
 @app.get("/health", tags=["health check endpoint"])
 def check_health():
     """Health check endpoint to verify if the application is running."""
     return {"status": "ok"}
+
+
+# render main page
+@app.get("/")
+async def Home_page(req: Request):
+    return templates.TemplateResponse(request=req, name="main_layout.html")
 
 
 @app.middleware("http")
