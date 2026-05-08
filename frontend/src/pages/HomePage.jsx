@@ -39,9 +39,10 @@ const HomePage = () => {
             </h1>
 
             <p className="mx-auto mt-6 max-w-3xl text-sm leading-relaxed text-gray-300 md:text-lg">
-              We currently provide private chat rooms, not end-to-end encryption.
-              Rooms automatically expire after 2 hours, and room messages plus user
-              session data are removed to avoid persistent storage.
+              We currently provide private chat rooms, not end-to-end
+              encryption. Rooms automatically expire after 2 hours, and room
+              messages plus user session data are removed to avoid persistent
+              storage.
             </p>
 
             {/* Call to action buttons */}
@@ -49,7 +50,7 @@ const HomePage = () => {
               {/* create room button */}
               <Link
                 to="/create-room"
-                className="group relative w-full overflow-hidden border bg-linear-to-r from-green-400 via-emerald-400 to-green-300 px-8 py-10 text-base font-semibold uppercase tracking-wider text-black transition-all duration-300 sm:w-auto sm:px-10 md:px-12 md:text-lg"
+                className="group relative inline-block w-full cursor-pointer overflow-hidden rounded-[6em] border-none bg-white px-8 py-10 font-inherit text-base font-medium tracking-wider text-black no-underline transition-all duration-200 before:absolute before:left-0 before:top-0 before:-z-10 before:h-full before:w-full before:rounded-[100px] before:bg-white before:transition-all before:duration-400 hover:translate-y-[-3px] hover:shadow-[0_10px_20px_rgba(0,0,0,0.2)] hover:before:scale-x-[1.4] hover:before:scale-y-[1.6] hover:before:opacity-0 active:-translate-y-px active:shadow-[0_5px_10px_rgba(0,0,0,0.2)] sm:w-auto sm:px-10 md:px-12 md:text-lg"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   <span>CREATE A 2-HOUR ROOM</span>
@@ -57,13 +58,12 @@ const HomePage = () => {
                     →
                   </span>
                 </span>
-                <span className="absolute inset-0 z-0 bg-linear-to-r from-green-400 to-emerald-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
               </Link>
 
               {/* join room button */}
               <Link
                 to="/join-room"
-                className="group w-full bg-red-500/70 px-8 py-10 text-base font-semibold uppercase tracking-wider text-white backdrop-blur-sm transition-all duration-300 hover:opacity-70 sm:w-auto sm:px-10 md:px-12 md:text-lg"
+                className="group relative inline-block w-full cursor-pointer overflow-hidden rounded-[6em] border-none bg-red-500 px-8 py-10 font-inherit text-base font-medium tracking-wider text-white no-underline transition-all duration-200 before:absolute before:left-0 before:top-0 before:-z-10 before:h-full before:w-full before:rounded-[100px] before:bg-red-500 before:transition-all before:duration-400 hover:translate-y-[-3px] hover:shadow-[0_10px_20px_rgba(239,68,68,0.35)] hover:before:scale-x-[1.4] hover:before:scale-y-[1.6] hover:before:opacity-0 active:-translate-y-px active:shadow-[0_5px_10px_rgba(239,68,68,0.28)] sm:w-auto sm:px-10 md:px-12 md:text-lg"
               >
                 <span className="flex items-center justify-center gap-2">
                   <span>JOIN TEMPORARY ROOM</span>
