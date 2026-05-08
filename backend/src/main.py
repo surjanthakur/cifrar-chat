@@ -46,7 +46,7 @@ def check_health():
 # render main page
 @app.get("/")
 async def Home_page(req: Request):
-    return templates.TemplateResponse(request=req, name="main_layout.html")
+    return templates.TemplateResponse(request=req, name="layouts/main_layout.html")
 
 
 @app.middleware("http")
