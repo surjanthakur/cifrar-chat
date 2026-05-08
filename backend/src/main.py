@@ -3,7 +3,6 @@ import time
 from typing import Callable, Awaitable
 
 from fastapi import FastAPI, Request, Response
-from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
 from .core.logging import setup_logging
@@ -33,17 +32,6 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan, title="cifrar-chat", version="0.1")
-
-origins = ["http://localhost:5173"]
-
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 
 @app.get("/health", tags=["health check endpoint"])
