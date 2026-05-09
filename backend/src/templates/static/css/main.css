@@ -82,16 +82,16 @@ svg {
   pointer-events: none;
   content: "";
   background:
-    radial-gradient(rgba(163, 230, 53, 0.34) 1px, transparent 1px),
-    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    radial-gradient(rgba(10, 13, 9, 0.5) 1px, transparent 2px),
+    linear-gradient(rgba(34, 44, 31, 0.1) 1px, transparent 2px),
+    linear-gradient(90deg, rgba(34, 44, 31, 0.1) 1px, transparent 2px),
     linear-gradient(
       120deg,
       transparent 0%,
-      rgba(110, 231, 183, 0.08) 42%,
+      rgba(7, 12, 10, 0.19) 42%,
       transparent 62%
     ),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 44%);
+    linear-gradient(180deg, rgba(9, 18, 14, 0.58), transparent 44%);
   background-position:
     0 0,
     0 0,
@@ -104,7 +104,7 @@ svg {
     56px 56px,
     auto,
     auto;
-  opacity: 0.75;
+  opacity: 1;
 }
 
 .text-gradient {
