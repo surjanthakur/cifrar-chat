@@ -75,38 +75,6 @@ svg {
   border-bottom: 1px solid rgba(110, 231, 183, 0.16);
 }
 
-.hero-grid-dots::before {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  content: "";
-  background:
-    radial-gradient(rgba(10, 13, 9, 0.5) 1px, transparent 2px),
-    linear-gradient(rgba(34, 44, 31, 0.1) 1px, transparent 2px),
-    linear-gradient(90deg, rgba(34, 44, 31, 0.1) 1px, transparent 2px),
-    linear-gradient(
-      120deg,
-      transparent 0%,
-      rgba(7, 12, 10, 0.19) 42%,
-      transparent 62%
-    ),
-    linear-gradient(180deg, rgba(9, 18, 14, 0.58), transparent 44%);
-  background-position:
-    0 0,
-    0 0,
-    0 0,
-    0 0,
-    0 0;
-  background-size:
-    24px 24px,
-    56px 56px,
-    56px 56px,
-    auto,
-    auto;
-  opacity: 1;
-}
-
 .text-gradient {
   display: inline-block;
   color: transparent;
