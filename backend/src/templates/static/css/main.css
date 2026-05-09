@@ -17,6 +17,7 @@ html {
 
 body {
   margin: 0;
+  position: relative;
   font-family:
     system-ui,
     -apple-system,
@@ -33,6 +34,30 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background:
+    linear-gradient(115deg, rgba(16, 185, 129, 0.1), transparent 34%),
+    linear-gradient(245deg, rgba(34, 211, 238, 0.08), transparent 38%),
+    #050706;
+  color: #f4f4f5;
+  overflow-x: hidden;
+}
+
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  content: "";
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), transparent 78%);
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
 }
 
 img,
@@ -42,4 +67,149 @@ canvas,
 svg {
   display: block;
   max-width: 100%;
+}
+
+::selection {
+  background: rgba(110, 231, 183, 0.35);
+  color: #ecfeff;
+}
+
+.glass-panel {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.035)),
+    rgba(8, 12, 11, 0.72);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+
+.hero-shell {
+  border-bottom: 1px solid rgba(110, 231, 183, 0.16);
+}
+
+.hero-shell::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  content: "";
+  background:
+    linear-gradient(120deg, transparent 0%, rgba(110, 231, 183, 0.08) 42%, transparent 62%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 44%);
+}
+
+.hero-shell > * {
+  position: relative;
+  z-index: 1;
+}
+
+.text-gradient {
+  display: inline-block;
+  color: transparent;
+  background: linear-gradient(90deg, #86efac, #67e8f9, #f0fdf4);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.shine-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-hover::before {
+  position: absolute;
+  inset: -60% auto -60% -75%;
+  width: 45%;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.18),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left 650ms ease;
+}
+
+.shine-hover:hover::before {
+  left: 130%;
+}
+
+.mini-stat {
+  display: flex;
+  min-height: 72px;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 16px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.mini-stat span {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(110, 231, 183, 0.12);
+  color: #a7f3d0;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.mini-stat strong {
+  color: #f4f4f5;
+  font-size: 14px;
+}
+
+.feature-card {
+  min-height: 230px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  padding: 28px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)),
+    rgba(9, 13, 12, 0.78);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 18px 55px rgba(0, 0, 0, 0.24);
+  transition:
+    transform 240ms ease,
+    border-color 240ms ease,
+    box-shadow 240ms ease;
+}
+
+.feature-card:hover {
+  border-color: rgba(110, 231, 183, 0.38);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 24px 70px rgba(16, 185, 129, 0.14);
+  transform: translateY(-4px) scale(1.015);
+}
+
+.feature-icon {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 1px solid rgba(110, 231, 183, 0.26);
+  border-radius: 14px;
+  background: rgba(16, 185, 129, 0.1);
+  color: #6ee7b7;
+  box-shadow: 0 14px 34px rgba(16, 185, 129, 0.09);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
