@@ -16,7 +16,8 @@
   </head>
   <body class="min-h-screen">
     {% include "partials/navbar.html" %}
-    {% include "pages/home_page.jinja" %}
+    {% set active_page = page_template | default("pages/home_page.jinja") %}
+    {% include active_page %}
     {% include "partials/footer.html" %}
   </body>
 </html>

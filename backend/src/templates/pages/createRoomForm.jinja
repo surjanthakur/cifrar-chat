@@ -1,0 +1,69 @@
+<main class="relative overflow-hidden px-4 py-14 sm:px-6 lg:px-8">
+  <section class="flex justify-center items-center min-h-[60vh]">
+    <div class="glass-panel rounded-3xl p-4 shadow-2xl shadow-black/30 w-full max-w-lg sm:p-6 lg:p-8">
+      <form
+        id="create-room-form"
+        class="needs-validation w-full"
+        action="/api/rooms/"
+        method="post"
+        novalidate
+      >
+        <div class="mb-5">
+          <label for="room_name" class="mb-2 block text-sm font-bold text-zinc-100">
+            Room Name
+          </label>
+          <div class="relative">
+            <input
+              type="text"
+              class="form-control min-h-14 w-full rounded-xl border-white/10 bg-white/[0.08] py-3 pl-12 pr-4 text-zinc-50 shadow-none placeholder:text-zinc-500 focus:border-emerald-300 focus:bg-white/[0.1] focus:text-white focus:ring-4 focus:ring-emerald-300/15"
+              id="room_name"
+              name="room_name"
+              minlength="3"
+              maxlength="20"
+              pattern="[A-Za-z0-9_ ]{3,20}"
+              placeholder="Project Alpha"
+              autocomplete="off"
+              required
+            />
+            <div class="invalid-feedback">
+              Use 3 to 20 characters: letters, numbers, spaces, or underscores.
+            </div>
+            <div class="valid-feedback">Room name looks good.</div>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <label for="room_owner" class="mb-2 block text-sm font-bold text-zinc-100">
+            Room Owner Name
+          </label>
+          <div class="relative">
+            <input
+              type="text"
+              class="form-control min-h-14 w-full rounded-xl border-white/10 bg-white/[0.08] py-3 pl-12 pr-4 text-zinc-50 shadow-none placeholder:text-zinc-500 focus:border-cyan-300 focus:bg-white/[0.1] focus:text-white focus:ring-4 focus:ring-cyan-300/15"
+              id="room_owner"
+              name="room_owner"
+              minlength="2"
+              maxlength="15"
+              pattern="[A-Za-z0-9_]{2,15}"
+              placeholder="surjan_01"
+              autocomplete="name"
+              required
+            />
+            <div class="invalid-feedback">
+              Use 2 to 15 characters: letters, numbers, or underscores.
+            </div>
+            <div class="valid-feedback">Owner name looks good.</div>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="shine-hover inline-flex min-h-14 w-full items-center justify-center gap-3 bg-emerald-300 px-6 py-4 text-sm font-black text-zinc-950 shadow-xl shadow-emerald-500/20 transition duration-300 hover:scale-[1.02] hover:bg-emerald-200"
+        >
+          <i class="fa-solid fa-plus"></i>
+          Create Private Room
+        </button>
+      </form>
+    </div>
+  </section>
+</main>

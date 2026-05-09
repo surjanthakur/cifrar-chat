@@ -58,6 +58,24 @@ async def Home_page(req: Request):
     return templates.TemplateResponse(request=req, name="layouts/main_layout.jinja")
 
 
+@app.get("/create-room")
+async def create_room_page(req: Request):
+    return templates.TemplateResponse(
+        request=req,
+        name="layouts/main_layout.jinja",
+        context={"page_template": "pages/createRoomForm.jinja"},
+    )
+
+
+@app.get("/join-room")
+async def create_room_page(req: Request):
+    return templates.TemplateResponse(
+        request=req,
+        name="layouts/main_layout.jinja",
+        context={"page_template": "pages/joinRoomForm.jinja"},
+    )
+
+
 @app.middleware("http")
 async def log_request(
     request: Request, call_next: Callable[[Request], Awaitable[Response]]
