@@ -17,7 +17,7 @@ templates = Jinja2Templates(directory=TEMPLATE_DIR)
 
 
 @Router.get(
-    "/create-rooms",
+    "/create",
     summary="Render create room page",
     status_code=status.HTTP_200_OK,
 )
@@ -30,7 +30,7 @@ async def create_room_page(request: Request):
 
 
 @Router.get(
-    "/join-rooms",
+    "/join",
     summary="Render join room page",
     status_code=status.HTTP_200_OK,
 )

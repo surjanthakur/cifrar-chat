@@ -81,5 +81,4 @@ async def log_request(
 
 
 # app routers
-app.include_router(room_router.PageRouter)
 app.include_router(room_router.Router, prefix="/api")
