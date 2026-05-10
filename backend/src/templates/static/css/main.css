@@ -34,8 +34,8 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #000;
-  color: #f4f4f5;
+  background: #000000;
+  color: #ffffff;
   overflow-x: hidden;
 }
 
@@ -148,7 +148,7 @@ svg {
   *,
   *::before,
   *::after {
-    scroll-behavior: auto !important;
+    scroll-behavior: smooth !important;
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
