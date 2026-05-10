@@ -44,14 +44,14 @@ templates = Jinja2Templates(directory=TEMPLATE_DIR)
 
 
 # health check route
-@app.get("/health", tags=["health check endpoint"])
+@app.get("/health", tags=["health check route"])
 def check_health():
     """Health check endpoint to verify if the application is running."""
     return {"status": "ok"}
 
 
 # render main page
-@app.get("/")
+@app.get("/", tags=["home page render route"], summary="render homepage of website")
 async def Home_page(req: Request):
     return templates.TemplateResponse(request=req, name="layouts/main_layout.jinja")
 

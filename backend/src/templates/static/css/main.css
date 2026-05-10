@@ -54,7 +54,11 @@ body > * {
 .motion-navbar {
   border: 1px solid rgba(255, 255, 255, 0.12);
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.055)),
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.12),
+      rgba(255, 255, 255, 0.055)
+    ),
     rgba(8, 12, 11, 0.7);
   box-shadow:
     0 24px 70px rgba(0, 0, 0, 0.32),
@@ -153,8 +157,16 @@ svg {
   z-index: -3;
   pointer-events: none;
   background:
-    radial-gradient(65% 48% at 15% 18%, rgba(132, 204, 22, 0.22), transparent 62%),
-    radial-gradient(54% 42% at 82% 24%, rgba(34, 211, 238, 0.2), transparent 64%),
+    radial-gradient(
+      65% 48% at 15% 18%,
+      rgba(132, 204, 22, 0.22),
+      transparent 62%
+    ),
+    radial-gradient(
+      54% 42% at 82% 24%,
+      rgba(34, 211, 238, 0.2),
+      transparent 64%
+    ),
     linear-gradient(115deg, rgba(11, 18, 17, 0.92), rgba(0, 0, 0, 0.88) 58%);
   filter: saturate(130%);
   transform: translateZ(0);
@@ -271,21 +283,31 @@ svg {
 
 @keyframes aurora-shift {
   0% {
-    background-position: 0% 50%, 100% 40%, 50% 50%;
+    background-position:
+      0% 50%,
+      100% 40%,
+      50% 50%;
   }
 
   100% {
-    background-position: 12% 44%, 88% 54%, 50% 50%;
+    background-position:
+      12% 44%,
+      88% 54%,
+      50% 50%;
   }
 }
 
 @keyframes grid-drift {
   0% {
-    background-position: 0 0, 0 0;
+    background-position:
+      0 0,
+      0 0;
   }
 
   100% {
-    background-position: 64px 64px, 64px 64px;
+    background-position:
+      64px 64px,
+      64px 64px;
   }
 }
 
