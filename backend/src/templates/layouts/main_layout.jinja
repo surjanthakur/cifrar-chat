@@ -15,9 +15,19 @@
     <title>Cifrar Chat</title>
   </head>
   <body class="min-h-screen">
+  
+  {# header #}
+  <header class="sticky top-0 z-50 pt-2 sm:px-4">
     {% include "partials/navbar.html" %}
+  </header>
+
+    {# pages #}
     {% set active_page = page_template | default("pages/home_page.jinja") %}
     {% include active_page %}
-    {% include "partials/footer.html" %}
+
+    {# footer #}
+    <footer id="contact" class="px-4 pb-6 pt-4 sm:px-6 lg:px-8">
+        {% include "partials/footer.html" %}
+    </footer>
   </body>
 </html>
