@@ -5,6 +5,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, Request, Response
 from contextlib import asynccontextmanager
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from .core.logging import setup_logging
@@ -14,6 +15,9 @@ from .routes import room_router
 
 setup_logging(level="INFO", app_name="cifrar-chat")
 logger = logging.getLogger(__name__)
+BASE_DIR = Path(__file__).resolve().parent
+TEMPLATE_DIR = BASE_DIR / "templates"
+STATIC_DIR = TEMPLATE_DIR / "static"
 
 
 @asynccontextmanager
@@ -34,7 +38,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan, title="cifrar-chat", version="0.1")
-templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+templates = Jinja2Templates(directory=TEMPLATE_DIR)
 
 
 # health check route
