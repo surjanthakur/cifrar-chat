@@ -1,11 +1,13 @@
 <nav
-  class="mx-auto w-full max-w-6xl rounded-4xl bg-white/10 px-3 py-3 shadow-2xl backdrop-blur-lg"
+  class="motion-navbar mx-auto w-full max-w-6xl rounded-4xl bg-white/10 px-3 py-3 shadow-2xl backdrop-blur-lg"
+  data-motion-navbar
 >
   <div class="flex items-center justify-between gap-4">
     <div class="flex min-w-0 shrink-0 items-center">
       <a
         href="/"
-        class="group flex items-center gap-3 rounded-xl px-2 py-1 text-lg font-bold text-zinc-100 transition duration-300 hover:text-emerald-300 sm:text-xl"
+        class="group magnetic-button flex items-center gap-3 rounded-xl px-2 py-1 text-lg font-bold text-zinc-100 transition duration-300 hover:text-emerald-300 sm:text-xl"
+        data-magnetic
       >
         <span
           class="grid size-10 place-items-center rounded-xl border border-emerald-300/30 bg-emerald-300/10 text-emerald-300 shadow-lg shadow-emerald-500/10 transition duration-300 group-hover:scale-105 group-hover:border-emerald-300/60"
@@ -20,7 +22,7 @@
       <div class="hidden items-center gap-2 md:flex">
         <a
           href="#features"
-          class="rounded-full px-4 py-2 text-sm font-semibold text-zinc-300 transition duration-300 hover:bg-white/5 hover:text-emerald-300"
+          class="nav-link-underline rounded-full px-4 py-2 text-sm font-semibold text-zinc-300 transition duration-300 hover:bg-white/5 hover:text-emerald-300"
         >
           <i class="fa-solid fa-list-check mr-2 text-xs"></i>
           <span>Features</span>
@@ -30,7 +32,7 @@
           href="https://github.com/Surjanthakur/cifrar-chat"
           target="_blank"
           rel="noopener noreferrer"
-          class="rounded-full px-4 py-2 text-sm font-semibold text-zinc-300 transition duration-300 hover:bg-white/5 hover:text-emerald-300"
+          class="nav-link-underline rounded-full px-4 py-2 text-sm font-semibold text-zinc-300 transition duration-300 hover:bg-white/5 hover:text-emerald-300"
         >
           <i class="fa-brands fa-github mr-2 text-sm"></i>
           <span>GitHub</span>

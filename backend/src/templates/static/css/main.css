@@ -48,6 +48,43 @@ body > * {
   position: sticky;
   top: 0;
   z-index: 100;
+  will-change: transform, opacity;
+}
+
+.motion-navbar {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.055)),
+    rgba(8, 12, 11, 0.7);
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+}
+
+.nav-link-underline {
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link-underline::after {
+  position: absolute;
+  right: 18px;
+  bottom: 7px;
+  left: 18px;
+  height: 2px;
+  border-radius: 999px;
+  content: "";
+  background: linear-gradient(90deg, #84cc16, #22d3ee);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 260ms ease;
+}
+
+.nav-link-underline:hover::after,
+.nav-link-underline:focus-visible::after {
+  transform: scaleX(1);
 }
 
 img,
@@ -81,12 +118,57 @@ svg {
   border-bottom: 1px solid rgba(110, 231, 183, 0.16);
 }
 
+.home-hero {
+  isolation: isolate;
+  min-height: clamp(520px, 78vh, 680px);
+}
+
+.home-hero::before {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  content: "";
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(circle at top, black 0%, transparent 72%);
+  animation: grid-drift 18s linear infinite;
+}
+
+.home-hero::after {
+  position: absolute;
+  inset: auto 0 -1px;
+  z-index: -1;
+  height: 32%;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(180deg, transparent, #000 82%);
+}
+
+.hero-aurora-layer {
+  position: absolute;
+  inset: -20% -12% 0;
+  z-index: -3;
+  pointer-events: none;
+  background:
+    radial-gradient(65% 48% at 15% 18%, rgba(132, 204, 22, 0.22), transparent 62%),
+    radial-gradient(54% 42% at 82% 24%, rgba(34, 211, 238, 0.2), transparent 64%),
+    linear-gradient(115deg, rgba(11, 18, 17, 0.92), rgba(0, 0, 0, 0.88) 58%);
+  filter: saturate(130%);
+  transform: translateZ(0);
+  animation: aurora-shift 14s ease-in-out infinite alternate;
+}
+
 .text-gradient {
   display: inline-block;
   color: transparent;
-  background: linear-gradient(90deg, #86efac, #67e8f9, #f0fdf4);
+  background: linear-gradient(90deg, #86efac, #67e8f9, #f0fdf4, #bef264);
+  background-size: 240% 100%;
   -webkit-background-clip: text;
   background-clip: text;
+  animation: gradient-pan 5.5s ease-in-out infinite;
 }
 
 .shine-hover {
@@ -112,6 +194,49 @@ svg {
 
 .shine-hover:hover::before {
   left: 130%;
+}
+
+.magnetic-button {
+  will-change: transform;
+}
+
+.pulse-cta {
+  animation: cta-pulse 2.6s ease-in-out infinite;
+}
+
+.feature-grid {
+  perspective: 1100px;
+}
+
+.feature-card {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow;
+}
+
+.feature-card::after {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  content: "";
+  background: radial-gradient(
+    circle at var(--card-x, 50%) var(--card-y, 50%),
+    rgba(132, 204, 22, 0.24),
+    transparent 42%
+  );
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.feature-card:hover::after {
+  opacity: 1;
+}
+
+.feature-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .mini-stat {
@@ -144,11 +269,53 @@ svg {
   font-size: 14px;
 }
 
+@keyframes aurora-shift {
+  0% {
+    background-position: 0% 50%, 100% 40%, 50% 50%;
+  }
+
+  100% {
+    background-position: 12% 44%, 88% 54%, 50% 50%;
+  }
+}
+
+@keyframes grid-drift {
+  0% {
+    background-position: 0 0, 0 0;
+  }
+
+  100% {
+    background-position: 64px 64px, 64px 64px;
+  }
+}
+
+@keyframes gradient-pan {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes cta-pulse {
+  0%,
+  100% {
+    box-shadow: 0 20px 40px rgba(16, 185, 129, 0.18);
+  }
+
+  50% {
+    box-shadow: 0 24px 60px rgba(34, 197, 94, 0.32);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    scroll-behavior: smooth !important;
+    scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
