@@ -10,6 +10,7 @@ from fastapi import (
     WebSocketException,
 )
 from redis.exceptions import RedisError, ConnectionError, TimeoutError
+from ..schemas.rooms import createRoomsRequest
 
 from ..utils.rooms_utils import generate_room_key, socketManager
 from ..db.redis import redis_client
@@ -18,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 # create room
-async def create_room_service(room_name: str, room_owner: str):
+async def create_room_service(room_data: createRoomsRequest):
     """
     Creates a new room with the provided details and stores it in Redis.
     The room will have a unique access key and will expire after 2 hours.
@@ -35,16 +36,16 @@ async def create_room_service(room_name: str, room_owner: str):
         await redis_client.hset(
             name=f"room:{room_id}",
             mapping={
-                "room_name": f"{room_name}",
-                "room_owner": f"{room_owner}",
+                "room_name": f"{room_data.room_name}",
+                "room_owner": f"{room_data.room_owner}",
                 "room_access_key": f"{access_key}",
                 "created_at": f"{datetime.date(datetime.now())}",
             },
         )
         await redis_client.expire(name=f"room:{room_id}", time=TTL)
-
         await redis_client.set(name=f"key:{access_key}", value=room_id, ex=TTL)
-        return {"room_owner": room_owner, "room_access_key": access_key}
+
+        return {"room_owner": room_data.room_owner, "room_access_key": access_key}
 
     except (RedisError, ConnectionError, TimeoutError) as redis_err:
         logger.exception(msg=f"redis error while creating room: {redis_err}")

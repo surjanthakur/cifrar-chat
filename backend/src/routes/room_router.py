@@ -1,13 +1,8 @@
-from fastapi import (
-    APIRouter,
-    Request,
-    status,
-    WebSocket,
-)
+from fastapi import APIRouter, Request, status, WebSocket, Form
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
 
-from ..schemas.rooms import createRoomsRequest, createRoomsResponse
+from ..schemas.rooms import createRoomsResponse, createRoomsRequest
 from ..services.room_services import create_room_service, join_room_service
 
 Router = APIRouter(tags=["chat-room"], prefix="/rooms")
@@ -16,11 +11,7 @@ TEMPLATE_DIR = Path(__file__).resolve().parents[1] / "templates"
 templates = Jinja2Templates(directory=TEMPLATE_DIR)
 
 
-@Router.get(
-    "/create",
-    summary="Render create room page",
-    status_code=status.HTTP_200_OK,
-)
+@Router.get("/create", summary="Render create room page")
 async def create_room_page(request: Request):
     return templates.TemplateResponse(
         request=request,
@@ -29,11 +20,7 @@ async def create_room_page(request: Request):
     )
 
 
-@Router.get(
-    "/join",
-    summary="Render join room page",
-    status_code=status.HTTP_200_OK,
-)
+@Router.get("/join", summary="Render join room page")
 async def join_room_page(request: Request):
     return templates.TemplateResponse(
         request=request,
@@ -50,16 +37,17 @@ async def join_room_page(request: Request):
     summary="Create a new chat room",
     description="Endpoint to create a new chat room. Requires a unique room name and room owner.",
 )
-async def create_room(room_data: createRoomsRequest):
+async def create_room(
+    room_name: str = Form(...),
+    room_owner: str = Form(...),
+):
     """
     :param room_data: The data required to create a new chat room, including the room name and owner name.
     :type room_data: createRoomsRequest
     :return: A response containing the details of the created chat room.
     """
-    return await create_room_service(
-        room_name=room_data.room_name,
-        room_owner=room_data.room_owner,
-    )
+    room_details = createRoomsRequest(room_name=room_name, room_owner=room_owner)
+    return await create_room_service(room_details)
 
 
 # join room
