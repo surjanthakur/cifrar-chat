@@ -14,6 +14,7 @@ from .routes import room_router
 
 
 setup_logging(level="INFO", app_name="cifrar-chat")
+
 logger = logging.getLogger(__name__)
 BASE_DIR = Path(__file__).resolve().parent
 TEMPLATE_DIR = BASE_DIR / "templates"
@@ -80,4 +81,5 @@ async def log_request(
 
 
 # app routers
+app.include_router(room_router.PageRouter)
 app.include_router(room_router.Router, prefix="/api")

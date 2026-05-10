@@ -1,12 +1,45 @@
 from fastapi import (
     APIRouter,
+    Request,
     status,
     WebSocket,
 )
+from fastapi.templating import Jinja2Templates
+from pathlib import Path
+
 from ..schemas.rooms import createRoomsRequest, createRoomsResponse
 from ..services.room_services import create_room_service, join_room_service
 
-Router = APIRouter(tags=["chat-rooms"], prefix="/rooms")
+Router = APIRouter(tags=["chat-room"], prefix="/rooms")
+
+TEMPLATE_DIR = Path(__file__).resolve().parents[1] / "templates"
+templates = Jinja2Templates(directory=TEMPLATE_DIR)
+
+
+@Router.get(
+    "/create-rooms",
+    summary="Render create room page",
+    status_code=status.HTTP_200_OK,
+)
+async def create_room_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="layouts/main_layout.jinja",
+        context={"page_template": "pages/createRoomForm.jinja"},
+    )
+
+
+@Router.get(
+    "/join-rooms",
+    summary="Render join room page",
+    status_code=status.HTTP_200_OK,
+)
+async def join_room_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="layouts/main_layout.jinja",
+        context={"page_template": "pages/joinRoomForm.jinja"},
+    )
 
 
 # create room
