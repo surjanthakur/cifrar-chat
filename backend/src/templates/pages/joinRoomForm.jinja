@@ -38,6 +38,7 @@
               pattern="[A-Za-z0-9_]{3,20}"
               placeholder="enter your name"
               autocomplete="off"
+              value="{{ room.room_owner if room else '' }}"
               required
             />
           </div>
@@ -67,6 +68,7 @@
               pattern="[A-Za-z0-9_]{2,15}"
               placeholder="enter access key"
               autocomplete="off"
+              value="{{ room.room_access_key if room else '' }}"
               required
             />
           </div>

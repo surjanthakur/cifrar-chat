@@ -10,10 +10,11 @@ from fastapi import (
     WebSocketException,
 )
 from redis.exceptions import RedisError, ConnectionError, TimeoutError
-from ..schemas.rooms import createRoomsRequest
+from fastapi.responses import RedirectResponse
 
 from ..utils.rooms_utils import generate_room_key, socketManager
 from ..db.redis import redis_client
+from ..schemas.rooms import createRoomsRequest
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +46,10 @@ async def create_room_service(room_data: createRoomsRequest):
         await redis_client.expire(name=f"room:{room_id}", time=TTL)
         await redis_client.set(name=f"key:{access_key}", value=room_id, ex=TTL)
 
-        return {"room_owner": room_data.room_owner, "room_access_key": access_key}
+        return RedirectResponse(
+            url=f"api/rooms/join?room{room_id}",
+            status_code=status.HTTP_303_SEE_OTHER,
+        )
 
     except (RedisError, ConnectionError, TimeoutError) as redis_err:
         logger.exception(msg=f"redis error while creating room: {redis_err}")

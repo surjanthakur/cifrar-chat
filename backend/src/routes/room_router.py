@@ -1,9 +1,11 @@
 from fastapi import APIRouter, Request, status, WebSocket, Form
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
+from typing import Optional
 
 from ..schemas.rooms import createRoomsResponse, createRoomsRequest
 from ..services.room_services import create_room_service, join_room_service
+from ..db.redis import redis_client
 
 Router = APIRouter(tags=["chat-room"], prefix="/rooms")
 
@@ -21,11 +23,17 @@ async def create_room_page(request: Request):
 
 
 @Router.get("/join", summary="Render join room page")
-async def join_room_page(request: Request):
+async def join_room_page(request: Request, room_id: Optional[str] = None):
+    room_data = None
+    if room_id:
+        room_data = redis_client.hget(f"room:{room_id}")
     return templates.TemplateResponse(
         request=request,
         name="layouts/main_layout.jinja",
-        context={"page_template": "pages/joinRoomForm.jinja"},
+        context={
+            "page_template": "pages/joinRoomForm.jinja",
+            "room": room_data,
+        },
     )
 
 
