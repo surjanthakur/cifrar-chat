@@ -25,8 +25,10 @@ async def create_room_page(request: Request):
 @Router.get("/join", summary="Render join room page")
 async def join_room_page(request: Request, room_id: Optional[str] = None):
     room_data = None
+
     if room_id:
         room_data = redis_client.hget(f"room:{room_id}")
+
     return templates.TemplateResponse(
         request=request,
         name="layouts/main_layout.jinja",
