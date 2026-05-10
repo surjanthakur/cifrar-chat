@@ -27,7 +27,7 @@ async def join_room_page(request: Request, room_id: Optional[str] = None):
     room_data = None
 
     if room_id:
-        room_data = redis_client.hget(f"room:{room_id}")
+        room_data = await redis_client.hgetall(f"room:{room_id}")
 
     return templates.TemplateResponse(
         request=request,

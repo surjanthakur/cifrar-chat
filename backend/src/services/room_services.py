@@ -47,7 +47,7 @@ async def create_room_service(room_data: createRoomsRequest):
         await redis_client.set(name=f"key:{access_key}", value=room_id, ex=TTL)
 
         return RedirectResponse(
-            url=f"/join?room:{room_id}",
+            url=f"/api/rooms/join?room_id={room_id}",
             status_code=status.HTTP_303_SEE_OTHER,
         )
 
