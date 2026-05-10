@@ -5,7 +5,6 @@ from pathlib import Path
 
 from fastapi import FastAPI, Request, Response
 from contextlib import asynccontextmanager
-from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from .core.logging import setup_logging
@@ -35,14 +34,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan, title="cifrar-chat", version="0.1")
-templates_dir = Path(__file__).resolve().parent / "templates"
-templates = Jinja2Templates(directory=str(templates_dir))
-static_dir = templates_dir / "static"
-app.mount(
-    "/static",
-    StaticFiles(directory=str(static_dir)),
-    name="static",
-)
+templates = Jinja2Templates(directory="templates")
 
 
 # health check route
@@ -56,24 +48,6 @@ def check_health():
 @app.get("/")
 async def Home_page(req: Request):
     return templates.TemplateResponse(request=req, name="layouts/main_layout.jinja")
-
-
-@app.get("/create-room")
-async def create_room_page(req: Request):
-    return templates.TemplateResponse(
-        request=req,
-        name="layouts/main_layout.jinja",
-        context={"page_template": "pages/createRoomForm.jinja"},
-    )
-
-
-@app.get("/join-room")
-async def create_room_page(req: Request):
-    return templates.TemplateResponse(
-        request=req,
-        name="layouts/main_layout.jinja",
-        context={"page_template": "pages/joinRoomForm.jinja"},
-    )
 
 
 @app.middleware("http")
