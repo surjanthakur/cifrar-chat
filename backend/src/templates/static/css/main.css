@@ -102,39 +102,6 @@ svg {
   -webkit-backdrop-filter: blur(22px);
 }
 
-.hero-shell {
-  border-bottom: 1px solid rgba(110, 231, 183, 0.16);
-}
-
-.home-hero {
-  isolation: isolate;
-  min-height: clamp(520px, 78vh, 680px);
-}
-
-.home-hero::before {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  pointer-events: none;
-  content: "";
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(circle at top, black 0%, transparent 72%);
-  animation: grid-drift 18s linear infinite;
-}
-
-.home-hero::after {
-  position: absolute;
-  inset: auto 0 -1px;
-  z-index: -1;
-  height: 32%;
-  pointer-events: none;
-  content: "";
-  background: linear-gradient(180deg, transparent, #000 82%);
-}
-
 .hero-aurora-layer {
   position: absolute;
   inset: -20% -12% 0;
