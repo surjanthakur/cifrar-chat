@@ -27,6 +27,7 @@ class WebsocketConnectionManager:
         """
         await websocket.accept()
         self.active_connections[connection_id] = websocket
+        # store room:connections
         await redis_client.sadd(f"room:{room_id}:connections", connection_id)
 
     async def store_user_connection_in_redis(
@@ -40,6 +41,7 @@ class WebsocketConnectionManager:
         """
         Adds user and connection details to Redis for tracking room membership and connections.
         """
+        # store user info
         await redis_client.hset(
             name=f"user:{user_id}",
             mapping={
@@ -49,8 +51,14 @@ class WebsocketConnectionManager:
                 "room_id": f"{room_id}",
             },
         )
+
+        # store room:users
         await redis_client.sadd(f"room:{room_id}:users", user_id)
+
+        # store users:connections
         await redis_client.sadd(f"users:{user_id}:connections", connection_id)
+
+        # store connections
         await redis_client.hset(
             name=f"connection:{connection_id}",
             mapping={
