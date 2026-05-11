@@ -98,6 +98,9 @@ async def join_room_service(websocket: WebSocket):
         access_key=access_key,
         username=username,
     )
+    await connection_manager.brodcast_message(
+        user_connection_id, receive_msg="hey everyone, I just joined this group!"
+    )
 
     # get pubsub
     pubsub = redis_client.pubsub()

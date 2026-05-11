@@ -1,4 +1,6 @@
 import secrets
+import json
+from datetime import datetime
 from fastapi import WebSocket
 from collections import defaultdict
 from ..db.redis import redis_client
@@ -68,9 +70,7 @@ class WebsocketConnectionManager:
             },
         )
 
-    async def brodcast_message(
-        self, connection_id: str, message: str, websocket: WebSocket
-    ):
+    async def brodcast_message(self, connection_id: str, receive_msg: str):
         # get user:user_id who send the meessage
         user_id = await redis_client.hget(
             name=f"connection:{connection_id}", key="user_id"
@@ -82,9 +82,19 @@ class WebsocketConnectionManager:
             name=f"connection:{connection_id}", key="room_id"
         )
 
-    async def disconnect_connections():
-        """remove connection from room"""
-        pass
+        # strucure msg details
+        message_details = {
+            "username": username,
+            "message": receive_msg,
+            "timestamp": datetime.now().strftime("%d-%b-%I:%M%p").lower(),
+        }
+
+        # convert into json string
+        message_str = json.dumps(message_details)
+
+        for connection in self.active_rooms[room_id]:
+            # send in each WS connections
+            await connection.send_text(message_str)
 
 
 connection_manager = WebsocketConnectionManager()
