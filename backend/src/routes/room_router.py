@@ -26,14 +26,14 @@ async def render_create_room_form(request: Request):
 
 # render join room form
 @Router.get("/join", summary="Render join room page")
-async def render_join_room_form(request: Request, room_id: Optional[str] = None):
+async def render_join_room_form(req: Request, room_id: Optional[str] = None):
     room_data = None
 
     if room_id:
         room_data = await redis_client.hgetall(f"room:{room_id}")
 
     return templates.TemplateResponse(
-        request=request,
+        request=req,
         name="layouts/main_layout.jinja",
         context={
             "page_template": "pages/joinRoomForm.jinja",
@@ -42,11 +42,12 @@ async def render_join_room_form(request: Request, room_id: Optional[str] = None)
     )
 
 
-@Router.get("/chat/on")
+# render chat room page
+@Router.get("/chat/on", summary="Render chat room page")
 async def render_chat_window_page(req: Request, room_name: str):
     return templates.TemplateResponse(
         request=req,
-        name="chat_window",
+        name="/pages/chat_window.jinja",
         context={"room_name": room_name},
     )
 
