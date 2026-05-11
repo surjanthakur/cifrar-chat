@@ -61,14 +61,7 @@ async def log_request(
     request: Request, call_next: Callable[[Request], Awaitable[Response]]
 ) -> Response:
     """
-    Middleware to log the details and processing time of each HTTP request.
-
-    Args:
-        request (Request): The incoming HTTP request.
-        call_next (Callable[[Request], Awaitable[Response]]): Function to process the request and get a response.
-
-    Returns:
-        Response: The HTTP response with an added "x-process-time" header containing the processing duration.
+    Middleware to log the details and processing time of each HTTP request
     """
     start_time = time.time()
     response = await call_next(request)
