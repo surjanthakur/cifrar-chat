@@ -196,30 +196,6 @@ svg {
   perspective: 1100px;
 }
 
-.feature-card {
-  position: relative;
-  transform-style: preserve-3d;
-}
-
-.feature-card::after {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 220ms ease;
-}
-
-.feature-card:hover::after {
-  opacity: 1;
-}
-
-.feature-card > * {
-  position: relative;
-  z-index: 1;
-}
-
 .mini-stat {
   display: flex;
   min-height: 72px;
