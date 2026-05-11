@@ -1,7 +1,3 @@
-/* =============================================================================
-   Chat window — layout (fills viewport below site header when body.layout-chat)
-   ============================================================================= */
-
 body.layout-chat {
   min-height: 100dvh;
   min-height: 100vh;
@@ -34,7 +30,8 @@ body.layout-chat > footer#contact {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 980px;
+  max-width: 1025px;
+  margin-top: 2rem;
   margin-inline: auto;
   padding: 0 12px 12px;
 }
@@ -44,10 +41,6 @@ body.layout-chat > footer#contact {
     padding: 0 16px 16px;
   }
 }
-
-/* =============================================================================
-   Chat column — fixed visual height within shell (column flex)
-   ============================================================================= */
 
 .chat-container {
   flex: 1 1 auto;
@@ -64,10 +57,6 @@ body.layout-chat > footer#contact {
   border-radius: 12px;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
 }
-
-/* =============================================================================
-   Header — room title, meta, toolbar
-   ============================================================================= */
 
 .chat-header {
   display: flex;
@@ -94,7 +83,7 @@ body.layout-chat > footer#contact {
   font-weight: 600;
   font-size: 1rem;
   line-height: 1.25;
-  color: #fff;
+  color: #f06969;
   letter-spacing: 0.01em;
 }
 
@@ -141,10 +130,6 @@ body.layout-chat > footer#contact {
   outline-offset: 2px;
 }
 
-/* =============================================================================
-   Messages — scrollable transcript
-   ============================================================================= */
-
 .messages-container {
   flex: 1 1 auto;
   min-height: 0;
@@ -165,7 +150,7 @@ body.layout-chat > footer#contact {
 .message-group {
   display: flex;
   gap: 12px;
-  max-width: 100%;
+  max-width: max-content;
 }
 
 .avatar {
@@ -187,7 +172,7 @@ body.layout-chat > footer#contact {
   flex: 1 1 auto;
   min-width: 0;
   padding: 10px 14px;
-  border-radius: 10px;
+  border-radius: 15px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
@@ -202,8 +187,7 @@ body.layout-chat > footer#contact {
 
 .author {
   font-weight: 600;
-  font-size: 0.9375rem;
-  color: #fff;
+  color: #35d99d;
 }
 
 .timestamp {
@@ -327,12 +311,12 @@ body.layout-chat > footer#contact {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
+  width: 100px;
+  height: 42px;
   margin: 0;
   padding: 0;
   border: none;
-  border-radius: 50%;
+  border-radius: 12px;
   background: #22c55e;
   color: #fff;
   font-size: 1.125rem;
