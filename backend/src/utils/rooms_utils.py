@@ -29,7 +29,7 @@ class WebsocketConnectionManager:
         self.active_connections[connection_id] = websocket
         await redis_client.sadd(f"room:{room_id}:connections", connection_id)
 
-    async def add_to_redis(
+    async def store_user_connection_in_redis(
         self,
         username: str,
         access_key: str,
@@ -64,4 +64,4 @@ class WebsocketConnectionManager:
         pass
 
 
-socketManager = WebsocketConnectionManager()
+connection_manager = WebsocketConnectionManager()

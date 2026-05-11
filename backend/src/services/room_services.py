@@ -12,7 +12,7 @@ from fastapi import (
 from redis.exceptions import RedisError, ConnectionError, TimeoutError
 from fastapi.responses import RedirectResponse
 
-from ..utils.rooms_utils import generate_room_key, socketManager
+from ..utils.rooms_utils import generate_room_key, connection_manager
 from ..db.redis import redis_client
 from ..schemas.rooms import createRoomsRequest
 
@@ -86,12 +86,12 @@ async def join_room_service(websocket: WebSocket):
     user_id = str(uuid.uuid4())
     user_connection_id = str(uuid.uuid4())
 
-    await socketManager.accept_connection(
+    await connection_manager.accept_connection(
         websocket=websocket,
         room_id=room_id,
         connection_id=user_connection_id,
     )
-    await socketManager.add_to_redis(
+    await connection_manager.store_user_connection_in_redis(
         room_id=room_id,
         connection_id=user_connection_id,
         user_id=user_id,
