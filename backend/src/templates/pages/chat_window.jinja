@@ -1,60 +1,61 @@
- <link rel="stylesheet" href="{{ url_for('static', path='/css/chat_window.css') }}" />
-
- <section>
- {% macro chat_window(messages=[
-    {
-        'author': 'AlexD',
-        'time': '10:42 AM',
-        'content': 'Has anyone looked at the new API rate limits? We might need to implement a queue system for the batch processing.'
-    }
-    ],
-     channel_name="#test_group", 
-     online_count=1204) %}
-<div class="chat-container" id="chat-window">
-    <!-- Header -->
-    <div class="chat-header">
-        <div class="channel-info">
-            <span class="channel-name">{{ channel_name }}</span>
-            <span class="online-count">{{ online_count }} online</span>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', path='/css/chat_window.css') }}"
+/>
+<main class="chat-window-page" id="chat-window-root">
+  <section
+    class="chat-window-page__shell"
+    id="chat-window"
+    aria-label="Room chat"
+  >
+    <div class="chat-container">
+      <!-- Header -->
+      <header class="chat-header" role="banner">
+        <div class="chat-header__info channel-info">
+          <span class="chat-header__title channel-name">steve jones</span>
+          <span class="chat-header__meta online-count">23 online</span>
         </div>
-        <div class="header-actions">
-            <i class="fa-solid fa-users icon-btn"></i>
-            <i class="fa-regular fa-clock icon-btn"></i>
-            <i class="fa-regular fa-circle-xmark icon-btn"></i>
+        <div class="chat-header__actions header-actions">
+          <button type="button" class="icon-btn" aria-label="Members">
+            <i class="fa-solid fa-users" aria-hidden="true"></i>
+          </button>
+          <button type="button" class="icon-btn" aria-label="History">
+            <i class="fa-regular fa-clock" aria-hidden="true"></i>
+          </button>
+          <button type="button" class="icon-btn" aria-label="Close">
+            <i class="fa-regular fa-circle-xmark" aria-hidden="true"></i>
+          </button>
         </div>
-    </div>
+      </header>
 
-    <!-- Messages Area -->
-    <div class="messages-container">
-        {% for msg in messages %}
-        <div class="message-group">
-            <div class="message-content">
-                <div class="message-header">
-                {# username#}
-                    <span class="author">{{ msg.author }}</span>
-                {# timestamp #}¯
-                    <span class="timestamp">{{ msg.time }}</span>
-                </div>
-                {# message #}
-                <div class="message-body">
-                    {{ msg.content | safe }}
-                </div>
+      <!-- Messages -->
+      <div class="messages-container" role="log" aria-live="polite" aria-relevant="additions">
+        <article class="message-group">
+          <div class="message-content">
+            <div class="message-header">
+              <span class="author">test</span>
+              <span class="timestamp">12:03</span>
             </div>
-        </div>
-        {% endfor %}
-    </div>
+            <div class="message-body">hy this is demo messages</div>
+          </div>
+        </article>
+      </div>
 
-    <!-- Message Input -->
-    <div class="chat-input-area">
+      <!-- Composer -->
+      <footer class="chat-input-area" role="contentinfo">
         <div class="input-wrapper">
-            <i class="fa-solid fa-plus attach-btn"></i>
-            <input 
-                type="text" 
-                class="message-input" 
-                placeholder="say anything..."
-                autocomplete="off">
-            <button class="send-btn">➤</button>
+          <button type="button" class="attach-btn" aria-label="Attach">
+            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+          </button>
+          <input
+            type="text"
+            class="message-input"
+            placeholder="say anything..."
+            autocomplete="off"
+          />
+          <button type="button" class="send-btn" aria-label="Send message">➤</button>
         </div>
+      </footer>
     </div>
-</div>
- </section>
+  </section>
+</main>

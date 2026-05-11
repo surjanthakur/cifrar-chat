@@ -43,12 +43,15 @@ async def render_join_room_form(req: Request, room_id: Optional[str] = None):
 
 
 # render chat room page
-@Router.get("/chat/on", summary="Render chat room page")
-async def render_chat_window_page(req: Request, room_name: str):
+@Router.get("/chats/on", summary="Render chat room page")
+async def render_chat_window_page(req: Request):
     return templates.TemplateResponse(
         request=req,
-        name="/pages/chat_window.jinja",
-        context={"room_name": room_name},
+        name="layouts/main_layout.jinja",
+        context={
+            "page_template": "pages/chat_window.jinja",
+            "body_class": "layout-chat",
+        },
     )
 
 

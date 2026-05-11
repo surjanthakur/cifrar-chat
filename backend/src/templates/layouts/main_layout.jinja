@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{ url_for('static', path='/css/main.css') }}" />
     <title>Cifrar Chat</title>
   </head>
-  <body class="min-h-screen">
+  <body class="min-h-screen{% if body_class %} {{ body_class }}{% endif %}">
   
   {# header #}
   <header class="site-header pt-2 sm:px-4">
