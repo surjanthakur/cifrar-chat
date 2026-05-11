@@ -98,3 +98,9 @@ async def join_room_service(websocket: WebSocket):
         access_key=access_key,
         username=username,
     )
+
+    # get pubsub
+    pubsub = redis_client.pubsub()
+
+    # subscribe the room channel
+    await pubsub.subscribe(room_id)
