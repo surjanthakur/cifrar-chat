@@ -1,0 +1,60 @@
+ <link rel="stylesheet" href="{{ url_for('static', path='/css/chat_window.css') }}" />
+
+ <section>
+ {% macro chat_window(messages=[
+    {
+        'author': 'AlexD',
+        'time': '10:42 AM',
+        'content': 'Has anyone looked at the new API rate limits? We might need to implement a queue system for the batch processing.'
+    }
+    ],
+     channel_name="#test_group", 
+     online_count=1204) %}
+<div class="chat-container" id="chat-window">
+    <!-- Header -->
+    <div class="chat-header">
+        <div class="channel-info">
+            <span class="channel-name">{{ channel_name }}</span>
+            <span class="online-count">{{ online_count }} online</span>
+        </div>
+        <div class="header-actions">
+            <i class="fa-solid fa-users icon-btn"></i>
+            <i class="fa-regular fa-clock icon-btn"></i>
+            <i class="fa-regular fa-circle-xmark icon-btn"></i>
+        </div>
+    </div>
+
+    <!-- Messages Area -->
+    <div class="messages-container">
+        {% for msg in messages %}
+        <div class="message-group">
+            <div class="message-content">
+                <div class="message-header">
+                {# username#}
+                    <span class="author">{{ msg.author }}</span>
+                {# timestamp #}¯
+                    <span class="timestamp">{{ msg.time }}</span>
+                </div>
+                {# message #}
+                <div class="message-body">
+                    {{ msg.content | safe }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Message Input -->
+    <div class="chat-input-area">
+        <div class="input-wrapper">
+            <i class="fa-solid fa-plus attach-btn"></i>
+            <input 
+                type="text" 
+                class="message-input" 
+                placeholder="say anything..."
+                autocomplete="off">
+            <button class="send-btn">➤</button>
+        </div>
+    </div>
+</div>
+ </section>
