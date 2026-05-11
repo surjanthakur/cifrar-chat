@@ -42,6 +42,15 @@ async def render_join_room_form(request: Request, room_id: Optional[str] = None)
     )
 
 
+@Router.get("/chat/on")
+async def render_chat_window_page(req: Request, room_name: str):
+    return templates.TemplateResponse(
+        request=req,
+        name="chat_window",
+        context={"room_name": room_name},
+    )
+
+
 # create room
 @Router.post(
     "/",
