@@ -24,10 +24,6 @@ async def create_room_service(room_data: createRoomsRequest):
     """
     Creates a new room with the provided details and stores it in Redis.
     The room will have a unique access key and will expire after 2 hours.
-    Args:
-        room_details (createRoomsRequest): The details of the room to be created.
-    Returns:
-        createRoomsResponse: The response containing the room owner and access key.
     """
     try:
         access_key = await asyncio.to_thread(generate_room_key)

@@ -32,6 +32,7 @@ class WebsocketConnectionManager:
         self.active_rooms[room_id].append(websocket)
         # store room:connections
         await redis_client.sadd(f"room:{room_id}:connections", connection_id)
+        await websocket.send_text(json.dumps({"status": "success", "room_id": room_id}))
 
     async def store_user_connection_in_redis(
         self,
