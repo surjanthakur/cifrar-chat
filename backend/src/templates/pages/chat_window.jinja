@@ -1,60 +1,112 @@
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', path='/css/chat_window.css') }}"
-/>
-<main class="chat-window-page" id="chat-window-root">
+<main
+  class="flex h-full min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden"
+  id="chat-window-root"
+>
   <section
-    class="chat-window-page__shell"
+    class="flex h-full min-h-0 w-full min-w-0 max-w-full flex-1 flex-col overflow-hidden px-3 py-3 sm:px-4 sm:py-4"
     id="chat-window"
     aria-label="Room chat"
   >
-    <div class="chat-container">
+    <div
+      class="flex h-full min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden rounded-xl bg-[#1e1e1e] font-sans text-[#e0e0e0] shadow-[0_4px_24px_rgba(0,0,0,0.35)]"
+    >
       <!-- Header -->
-      <header class="chat-header" role="banner">
-        <div class="chat-header__info channel-info">
-          <span class="chat-header__icon">
+      <header
+        class="flex shrink-0 items-center justify-between gap-3 border-b border-[#3a3a3a] bg-gradient-to-b from-[#323232] to-[#2a2a2a] px-[18px] py-3.5"
+        role="banner"
+      >
+        <div
+          class="channel-info flex min-w-0 flex-wrap items-baseline gap-x-3.5 gap-y-2.5"
+        >
+          <span class="inline-flex text-[#aaa]">
             <i class="fa-regular fa-comment" aria-hidden="true"></i>
           </span>
-          <span class="chat-header__title channel-name">steve jones</span>
-          <span class="chat-header__meta online-count">23 online</span>
-     
+          <span
+            class="channel-name text-base font-semibold leading-tight tracking-wide text-[#f06969]"
+            >steve jones</span>
+          <span
+            class="online-count text-[0.8125rem] leading-snug text-[#8a8a8a]"
+            >23 online</span>
         </div>
-        <div class="chat-header__actions header-actions">
-          <button type="button" class="icon-btn" aria-label="Members">
+        <div class="header-actions flex shrink-0 items-center gap-1">
+          <button
+            type="button"
+            class="inline-flex cursor-pointer items-center justify-center rounded-lg border-0 bg-transparent px-2.5 py-2 text-lg leading-none text-[#aaa] transition-colors duration-150 hover:bg-[#3a3a3a] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500"
+            aria-label="Members"
+          >
             <i class="fa-solid fa-users" aria-hidden="true"></i>
           </button>
-          <button type="button" class="icon-btn" aria-label="History">
+          <button
+            type="button"
+            class="inline-flex cursor-pointer items-center justify-center rounded-lg border-0 bg-transparent px-2.5 py-2 text-lg leading-none text-[#aaa] transition-colors duration-150 hover:bg-[#3a3a3a] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500"
+            aria-label="History"
+          >
             <i class="fa-regular fa-clock" aria-hidden="true"></i>
           </button>
-          <button type="button" class="icon-btn" aria-label="Close">
+          <button
+            type="button"
+            class="inline-flex cursor-pointer items-center justify-center rounded-lg border-0 bg-transparent px-2.5 py-2 text-lg leading-none text-[#aaa] transition-colors duration-150 hover:bg-[#3a3a3a] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500"
+            aria-label="Close"
+          >
             <i class="fa-regular fa-circle-xmark" aria-hidden="true"></i>
           </button>
         </div>
       </header>
 
-      <!-- Messages -->
-      <div class="messages-container" role="log" aria-live="polite" aria-relevant="additions">
-        <article class="message-group">
-          <div class="message-content">
-            <div class="message-header">
-              <span class="author">test</span>
-              <span class="timestamp">12:03</span>
+      <!-- Messages: chronological order (oldest → newest); newest sits bottom-left; scroll up for history -->
+      <div
+        id="chat-messages-scroll"
+        class="min-h-0 min-w-0 w-full flex-1 overflow-y-auto overflow-x-hidden bg-[#1a1a1a] bg-[radial-gradient(ellipse_120%_80%_at_50%_-20%,rgba(34,197,94,0.06),transparent_55%)] px-[18px] pb-6 pt-5 [scrollbar-color:#444_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded [&::-webkit-scrollbar-thumb]:bg-[#444] hover:[&::-webkit-scrollbar-thumb]:bg-[#555]"
+        role="log"
+        aria-live="polite"
+        aria-relevant="additions"
+      >
+        <div
+          id="chat-messages-list"
+          class="flex min-h-full w-full flex-col items-start justify-end gap-5"
+        >
+        {# message div #}
+         <article class="message-group flex max-w-[min(100%,28rem)] shrink-0 gap-3 self-start">
+            <div
+              class="message-content min-w-0 rounded-[15px] border border-white/[0.06] bg-white/[0.04] px-3.5 py-2.5"
+            >
+              <div
+                class="message-header mb-1.5 flex flex-wrap items-baseline gap-x-3 gap-y-2"
+              >
+                <span class="author font-semibold text-[#35d99d]">test</span>
+                <span
+                  class="timestamp text-xs tabular-nums text-gray-500"
+                  >12:01</span>
+              </div>
+              <div
+                class="message-body break-words text-[0.9375rem] leading-[1.55] text-[#e5e5e5] [overflow-wrap:anywhere]"
+              >
+                older message — scroll up for history
+              </div>
             </div>
-            <div class="message-body">hy this is demo messages</div>
-          </div>
-        </article>
+          </article>
+        </div>
       </div>
 
       <!-- Composer -->
-      <footer class="chat-input-area" role="contentinfo">
-        <div class="input-wrapper">
+      <footer
+        class="chat-input-area shrink-0 border-t border-[#3a3a3a] bg-[#2a2a2a] px-[18px] py-3.5"
+        role="contentinfo"
+      >
+        <div
+          class="input-wrapper flex items-center gap-1 rounded-[10px] border border-white/[0.06] bg-[#363636] px-2 py-1"
+        >
           <input
             type="text"
-            class="message-input"
+            class="message-input min-w-0 flex-1 border-0 bg-transparent px-3 py-2.5 text-[0.9375rem] text-[#e0e0e0] outline-none placeholder:text-gray-500"
             placeholder="say anything..."
             autocomplete="off"
           />
-          <button type="button" class="send-btn" aria-label="Send message">➤</button>
+          <button
+            type="button"
+            class="send-btn inline-flex h-[42px] w-[100px] shrink-0 cursor-pointer items-center justify-center rounded-xl border-0 bg-green-500 p-0 text-lg leading-none text-white transition-colors duration-150 hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-300"
+            aria-label="Send message"
+            >➤</button>
         </div>
       </footer>
     </div>

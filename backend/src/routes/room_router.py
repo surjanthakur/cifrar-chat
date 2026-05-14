@@ -64,9 +64,8 @@ async def render_chat_window_page(
     """Render the chat window page for a given room and user."""
     return templates.TemplateResponse(
         request=req,
-        name="layouts/main_layout.jinja",
+        name="layouts/chat_layout.jinja",
         context={
-            "page_template": "pages/chat_window.jinja",
             "room_id": room_id,
             "user_id": user_id,
         },
