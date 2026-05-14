@@ -14,7 +14,9 @@ TEMPLATE_DIR = Path(__file__).resolve().parents[1] / "templates"
 templates = Jinja2Templates(directory=TEMPLATE_DIR)
 
 
-# render create room form
+# <---------------------------------------------- GET ------------------------------------------------------------>
+
+
 @Router.get("/create", summary="Render create room page")
 async def render_create_room_form(request: Request):
     return templates.TemplateResponse(
@@ -24,7 +26,6 @@ async def render_create_room_form(request: Request):
     )
 
 
-# render join room form
 @Router.get("/join", summary="Render join room page")
 async def render_join_room_form(req: Request, room_id: Optional[str] = None):
     room_data = None
@@ -42,17 +43,24 @@ async def render_join_room_form(req: Request, room_id: Optional[str] = None):
     )
 
 
-# render chat room page
 @Router.get("/chats/on", summary="Render chat room page")
-async def render_chat_window_page(req: Request):
+async def render_chat_window_page(
+    req: Request,
+    room_id: str,
+    user_id: str,
+):
     return templates.TemplateResponse(
         request=req,
         name="layouts/main_layout.jinja",
         context={
             "page_template": "pages/chat_window.jinja",
-            "body_class": "layout-chat",
+            "room_id": room_id,
+            "user_id": user_id,
         },
     )
+
+
+# <---------------------------------------------- POST ------------------------------------------------------------>
 
 
 # create room

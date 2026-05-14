@@ -13,6 +13,8 @@
       <form
         id="join-room-form"
         class="w-full space-y-5"
+        action="/api/rooms/join"
+        method="post"
       >
         <div>
           <label for="username" class="mb-2 block text-sm font-bold text-zinc-100">
@@ -60,8 +62,7 @@
               class="min-h-14 w-full rounded-xl border border-white/20 bg-white/10 py-3 pl-12 pr-4 text-white outline-none transition duration-300 placeholder:text-zinc-500 hover:border-cyan-300/50 focus:border-cyan-300 focus:bg-white/[0.12] focus:ring-4 focus:ring-cyan-300/15 invalid:[&:not(:placeholder-shown)]:border-rose-400 invalid:[&:not(:placeholder-shown)]:ring-rose-400/15"
               id="room_access_key"
               name="room_access_key"
-              minlength="2"
-              maxlength="15"
+              minlength="10"
               pattern="[A-Za-z0-9_]{2,15}"
               placeholder="enter access key"
               autocomplete="off"
@@ -85,4 +86,3 @@
     </div>
   </section>
 </main>
-<script src="{{ url_for('static', path='/js/websocket.js') }}" defer></script>

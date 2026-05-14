@@ -63,36 +63,60 @@ async def create_room_service(room_data: createRoomsRequest):
 
 # join room
 async def join_room_service(form_data: JoinRoomRequest):
-    room_id = await redis_client.get(f"key:{form_data.room_access_key}")
-    if not room_id:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Wrong credential, try again."
+    try:
+        room_id = await redis_client.get(f"key:{form_data.room_access_key}")
+        if not room_id:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Wrong credential, try again.",
+            )
+
+        user_id = str(uuid.uuid4())
+        user_connection_id = str(uuid.uuid4())
+        # store users info
+        await redis_client.hset(
+            name=f"user:{user_id}",
+            mapping={
+                "username": f"{form_data.username}",
+                "connection_id": f"{user_connection_id}",
+                "room_access_key": f"{form_data.room_access_key}",
+                "room_id": f"{room_id}",
+            },
         )
 
-    user_id = str(uuid.uuid4())
-    user_connection_id = str(uuid.uuid4())
-    # store users info
-    await redis_client.hset(
-        name=f"user:{user_id}",
-        mapping={
-            "username": f"{form_data.username}",
-            "connection_id": f"{user_connection_id}",
-            "room_access_key": f"{form_data.room_access_key}",
-            "room_id": f"{room_id}",
-        },
-    )
+        # store room:users
+        await redis_client.sadd(f"room:{room_id}:users", user_id)
 
-    # store room:users
-    await redis_client.sadd(f"room:{room_id}:users", user_id)
+        # store users:connections
+        await redis_client.sadd(f"users:{user_id}:connections", user_connection_id)
 
-    # store users:connections
-    await redis_client.sadd(f"users:{user_id}:connections", user_connection_id)
+        # store connections_info
+        await redis_client.hset(
+            name=f"connection:{user_connection_id}",
+            mapping={
+                "user_id": f"{user_id}",
+                "room_id": f"{room_id}",
+            },
+        )
+        # redirecting to chat
+        return RedirectResponse(
+            url=f"/api/rooms/chats/on?room_id={room_id}&user_id={user_id}",
+            status_code=status.HTTP_303_SEE_OTHER,
+        )
 
-    # store connections_info
-    await redis_client.hset(
-        name=f"connection:{user_connection_id}",
-        mapping={
-            "user_id": f"{user_id}",
-            "room_id": f"{room_id}",
-        },
-    )
+    except HTTPException:
+        raise
+
+    except (RedisError, ConnectionError, TimeoutError) as redis_err:
+        logger.exception(msg=f"redis error while creating room: {redis_err}")
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="service is currently unavailable, try again later!",
+        )
+
+    except Exception as err:
+        logger.exception(msg=f"error while joining room: {err}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="something went wrong try again!",
+        )
