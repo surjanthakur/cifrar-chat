@@ -40,7 +40,7 @@ class ManageUserStore:
                 "room_id": f"{room_id}",
             },
         )
-        await redis_client.hexpire(name=f"users:{user_id}", seconds=7200)
+        await redis_client.expire(name=f"user:{user_id}", time=7200)
 
     async def add_user_in_room(self, room_id: str, user_id: str):
         """
@@ -67,7 +67,7 @@ class ManageUserStore:
                 "room_id": f"{room_id}",
             },
         )
-        await redis_client.hexpire(name=f"conection:{connection_id}", seconds=7200)
+        await redis_client.expire(name=f"connection:{connection_id}", time=7200)
 
 
 redisUserManager = ManageUserStore()
