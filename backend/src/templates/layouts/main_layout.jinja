@@ -15,14 +15,16 @@
     <title>Cifrar Chat</title>
   </head>
   <body class="min-h-screen">
-  
+    {% set active_page = page_template | default("pages/home_page.jinja") %}
+    {% if active_page == "pages/home_page.jinja" %}
+    {% endif %}
+
   {# header #}
   <header class="site-header shrink-0 pt-2 sm:px-4">
     {% include "partials/navbar.html" %}
   </header>
 
     {# pages #}
-    {% set active_page = page_template | default("pages/home_page.jinja") %}
     {% include active_page %}
 
     {# footer #}

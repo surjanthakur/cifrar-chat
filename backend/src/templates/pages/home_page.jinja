@@ -1,5 +1,5 @@
-<main>
-<section class="relative overflow-hidden">
+<main class="home-page relative isolate">
+  <section class="home-hero relative z-10 overflow-hidden">
     <div
       class="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center justify-center px-4 pb-16 pt-20 text-center sm:px-6 sm:pb-20 sm:pt-24 lg:px-8"
     >
@@ -47,5 +47,8 @@
       </div>
     </div>
   </section>
-  {% include "components/features_cards.html" %}
+
+  <div class="relative z-10">
+    {% include "components/features_cards.html" %}
+  </div>
 </main>
