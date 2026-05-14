@@ -8,6 +8,11 @@ dependencies = [
     "fastapi[standard]>=0.136.1",
     "jinja2>=3.1.6",
     "pydantic-settings>=2.14.0",
+    "pylint>=4.0.5",
     "redis>=7.4.0",
     "uvicorn>=0.46.0",
 ]
+
+# Put project root on sys.path so `src.*` resolves (relative imports in routes).
+[tool.pylint.main]
+source-roots = ["."]

@@ -1,29 +1,39 @@
+"""
+Schemas for chat room creation and joining within the cifrar-chat application.
+
+Defines request and response models for room-related endpoints using Pydantic BaseModel.
+"""
+
 from pydantic import BaseModel, Field
 
 
-class createRoomsRequest(BaseModel):
+class CreateRoomsRequest(BaseModel):
+    """Request schema for creating a chat room."""
+
     room_owner: str = Field(
         ...,
         min_length=2,
         max_length=15,
         title="Room Owner",
-        description="The username of the room owner. It should be between 2 and 15 characters long and can only contain letters, numbers, and underscores.",
     )
     room_name: str = Field(
         ...,
         min_length=3,
         max_length=20,
         title="Room Name",
-        description="The name of the room. It should be between 3 and 20 characters long and can only contain letters, numbers, spaces, and underscores.",
     )
 
 
-class createRoomsResponse(BaseModel):
+class CreateRoomsResponse(BaseModel):
+    """Response schema for room creation."""
+
     room_owner: str
     room_access_key: str
 
 
 class JoinRoomRequest(BaseModel):
+    """Request schema for joining a chat room."""
+
     username: str = Field(
         ...,
         min_length=2,
