@@ -1,10 +1,13 @@
+"""Main entry point for the cifrar-chat application."""
+
 import logging
 import time
 from typing import Callable, Awaitable
 from pathlib import Path
 
-from fastapi import FastAPI, Request, Response
 from contextlib import asynccontextmanager
+from fastapi import FastAPI, Request, Response
+
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
@@ -22,7 +25,7 @@ STATIC_DIR = TEMPLATE_DIR / "static"
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(_: FastAPI):
     """
     Lifespan context manager for the FastAPI application.
     Ensures Redis connection is available at startup and properly
@@ -33,7 +36,8 @@ async def lifespan(app: FastAPI):
         await check_redis_connection()
         yield
     except Exception as err:
-        raise RuntimeError(f"error on startup app {err}")
+        raise RuntimeError(f"error on startup app {err}") from err
+
     finally:
         await close_redis_connection()
 
@@ -52,7 +56,10 @@ def check_health():
 
 # render main page
 @app.get("/", tags=["home page render route"], summary="render homepage of website")
-async def Home_page(req: Request):
+async def homepage(req: Request):
+    """
+    Renders the home_page of the website.
+    """
     return templates.TemplateResponse(request=req, name="layouts/main_layout.jinja")
 
 
