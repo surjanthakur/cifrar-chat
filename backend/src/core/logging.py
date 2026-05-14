@@ -41,4 +41,4 @@ def setup_logging(*, level: str = "INFO", app_name: Optional[str] = None) -> Non
         },
     }
 
-    logging.config.dictConfig(config)
+    logging.config.dictConfig(config=config)

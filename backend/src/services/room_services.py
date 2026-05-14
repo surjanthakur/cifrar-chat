@@ -1,27 +1,46 @@
+"""
+Room services module for cifrar-chat backend.
+
+This module provides async service functions for handling room creation,
+joining, and management, leveraging Redis as the main storage backend.
+
+Functions here are intended to orchestrate business logic for room lifecycles,
+including creation with unique access keys, expiring room state, and integrating
+with user and websocket management utilities.
+
+All Redis operations are asynchronous and resilient to transient database
+errors.
+
+Typical usage:
+    from backend.src.services import room_services
+
+    await room_services.create_room_service(your_createRoomsRequest_instance)
+    # etc.
+"""
+
 import asyncio
 import uuid
 import logging
 from datetime import datetime
 
-from fastapi import (
-    HTTPException,
-    status,
-    WebSocket,
-    WebSocketException,
-)
-from redis.exceptions import RedisError, ConnectionError, TimeoutError
+from fastapi import HTTPException, status
 from fastapi.responses import RedirectResponse
+from redis.exceptions import (
+    RedisError,
+    ConnectionError as RedisConnectionError,
+    TimeoutError as RedisTimeoutError,
+)
 
-from ..utils.rooms_utils import generate_room_key
-from ..db.redis import redis_client
-from ..schemas.rooms import createRoomsRequest, JoinRoomRequest
-from ..utils.rooms_utils import redisUserManager
+
+from backend.src.utils.rooms_utils import generate_room_key, redisUserManager
+from backend.src.db.redis import redis_client
+from backend.src.schemas.rooms import CreateRoomsRequest, JoinRoomRequest
 
 logger = logging.getLogger(__name__)
 
 
 # create room
-async def create_room_service(room_data: createRoomsRequest):
+async def create_room_service(room_data: CreateRoomsRequest):
     """
     Creates a new room with the provided details and stores it in Redis.
     The room will have a unique access key and will expire after 2 hours.
@@ -29,7 +48,7 @@ async def create_room_service(room_data: createRoomsRequest):
     try:
         access_key = await asyncio.to_thread(generate_room_key)
         room_id = str(uuid.uuid4())
-        TTL = 7200
+        time_to_live = 7200
 
         await redis_client.hset(
             name=f"room:{room_id}",
@@ -40,30 +59,43 @@ async def create_room_service(room_data: createRoomsRequest):
                 "created_at": f"{datetime.date(datetime.now())}",
             },
         )
-        await redis_client.expire(name=f"room:{room_id}", time=TTL)
-        await redis_client.set(name=f"key:{access_key}", value=room_id, ex=TTL)
+        await redis_client.expire(name=f"room:{room_id}", time=time_to_live)
+        await redis_client.set(name=f"key:{access_key}", value=room_id, ex=time_to_live)
 
         return RedirectResponse(
             url=f"/api/rooms/join?room_id={room_id}",
             status_code=status.HTTP_303_SEE_OTHER,
         )
 
-    except (RedisError, ConnectionError, TimeoutError) as redis_err:
+    except (RedisError, RedisConnectionError, RedisTimeoutError) as redis_err:
         logger.exception(msg=f"redis error while creating room: {redis_err}")
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="service is currently unavailable, try again later!",
-        )
+        ) from redis_err
     except Exception as err:
         logger.exception(msg=f"error while creating room: {err}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="something went wrong try again!",
-        )
+        ) from err
 
 
 # join room
 async def join_room_service(form_data: JoinRoomRequest):
+    """
+    Join an existing room using the provided access key and username.
+
+    Looks up the room by access key in Redis, creates a new user, and registers user-related
+    info in Redis. Redirects to the chat window if successful. Raises HTTPException if the
+    access key does not exist or in case of redis error or other failure.
+
+    Args:
+        form_data (JoinRoomRequest): Data containing username and room access key.
+
+    Returns:
+        RedirectResponse: Redirects to the chat window page with room and user info.
+    """
     try:
         room_id = await redis_client.get(f"key:{form_data.room_access_key}")
         if not room_id:
@@ -98,16 +130,16 @@ async def join_room_service(form_data: JoinRoomRequest):
     except HTTPException:
         raise
 
-    except (RedisError, ConnectionError, TimeoutError) as redis_err:
+    except (RedisError, RedisConnectionError, RedisTimeoutError) as redis_err:
         logger.exception(msg=f"redis error while creating room: {redis_err}")
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="service is currently unavailable, try again later!",
-        )
+        ) from redis_err
 
     except Exception as err:
         logger.exception(msg=f"error while joining room: {err}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="something went wrong try again!",
-        )
+        ) from err

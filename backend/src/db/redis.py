@@ -1,11 +1,27 @@
+"""
+Redis database client module for cifrar-chat application.
+
+Handles asynchronous connection setup, health checking, and teardown for Redis,
+using configuration from settings. Exposes a single redis_client instance for use
+across the backend, plus utility functions to check and close the connection reliably.
+
+Raises informative errors if Redis is unavailable on startup or shutdown.
+"""
+
 import logging
-import redis.asyncio as redis
-from redis.exceptions import RedisError, TimeoutError, TryAgainError, ConnectionError
-from ..core.settings import settings
+import redis.asyncio as redis_async
+from redis.exceptions import (
+    RedisError,
+    TimeoutError as RedisTimeoutError,
+    TryAgainError as RedisTryAgainError,
+    ConnectionError as RedisConnectionError,
+)
+
+from backend.src.core.settings import settings
 
 logger = logging.getLogger(__name__)
 
-redis_client = redis.Redis(
+redis_client = redis_async.Redis(
     host=settings.redis_host,
     port=settings.redis_port,
     password=settings.redis_password,
@@ -32,7 +48,12 @@ async def check_redis_connection() -> None:
         else:
             logger.warning("Received unexpected response from Redis ping: %s", pong)
             raise RuntimeError("Unexpected Redis ping response.")
-    except (RedisError, TimeoutError, TryAgainError, ConnectionError) as error:
+    except (
+        RedisError,
+        RedisTimeoutError,
+        RedisTryAgainError,
+        RedisConnectionError,
+    ) as error:
         logger.error("Redis connection failed: %s", error)
         raise RuntimeError("Redis is unavailable.") from error
 
@@ -49,6 +70,11 @@ async def close_redis_connection():
         await redis_client.close()
         # Optionally, redis_client.close() may return None or awaitable. Log for debugging.
         logger.info("Redis connection closed successfully.")
-    except (RedisError, ConnectionError, TimeoutError, TryAgainError) as error:
+    except (
+        RedisError,
+        RedisConnectionError,
+        RedisTimeoutError,
+        RedisTryAgainError,
+    ) as error:
         logger.exception("Error closing Redis connection: %s", error)
         raise RuntimeError("Failed to close Redis connection.") from error
