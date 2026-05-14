@@ -15,6 +15,7 @@ from fastapi.responses import RedirectResponse
 from ..utils.rooms_utils import generate_room_key
 from ..db.redis import redis_client
 from ..schemas.rooms import createRoomsRequest, JoinRoomRequest
+from ..utils.rooms_utils import redisUserManager
 
 logger = logging.getLogger(__name__)
 
@@ -70,34 +71,24 @@ async def join_room_service(form_data: JoinRoomRequest):
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Wrong credential, try again.",
             )
-
         user_id = str(uuid.uuid4())
         user_connection_id = str(uuid.uuid4())
+
         # store users info
-        await redis_client.hset(
-            name=f"user:{user_id}",
-            mapping={
-                "username": f"{form_data.username}",
-                "connection_id": f"{user_connection_id}",
-                "room_access_key": f"{form_data.room_access_key}",
-                "room_id": f"{room_id}",
-            },
+        await redisUserManager.add_user(
+            username=form_data.username,
+            room_id=room_id,
+            user_id=user_id,
+            access_key=form_data.room_access_key,
+            connection_id=user_connection_id,
         )
-
         # store room:users
-        await redis_client.sadd(f"room:{room_id}:users", user_id)
-
+        await redisUserManager.add_user_in_room(room_id, user_id)
         # store users:connections
-        await redis_client.sadd(f"users:{user_id}:connections", user_connection_id)
-
+        await redisUserManager.add_users_connections(user_id, user_connection_id)
         # store connections_info
-        await redis_client.hset(
-            name=f"connection:{user_connection_id}",
-            mapping={
-                "user_id": f"{user_id}",
-                "room_id": f"{room_id}",
-            },
-        )
+        await redisUserManager.add_connection(user_connection_id, user_id, room_id)
+
         # redirecting to chat
         return RedirectResponse(
             url=f"/api/rooms/chats/on?room_id={room_id}&user_id={user_id}",
