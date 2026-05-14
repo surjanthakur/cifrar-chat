@@ -21,3 +21,17 @@ class createRoomsRequest(BaseModel):
 class createRoomsResponse(BaseModel):
     room_owner: str
     room_access_key: str
+
+
+class JoinRoomRequest(BaseModel):
+    username: str = Field(
+        ...,
+        min_length=2,
+        max_length=15,
+        title="username",
+    )
+    room_access_key: str = Field(
+        ...,
+        min_length=10,
+        title="room_access_key",
+    )

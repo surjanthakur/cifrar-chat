@@ -12,9 +12,9 @@ from fastapi import (
 from redis.exceptions import RedisError, ConnectionError, TimeoutError
 from fastapi.responses import RedirectResponse
 
-from ..utils.rooms_utils import generate_room_key, connection_manager
+from ..utils.rooms_utils import generate_room_key
 from ..db.redis import redis_client
-from ..schemas.rooms import createRoomsRequest
+from ..schemas.rooms import createRoomsRequest, JoinRoomRequest
 
 logger = logging.getLogger(__name__)
 
@@ -62,44 +62,5 @@ async def create_room_service(room_data: createRoomsRequest):
 
 
 # join room
-async def join_room_service(websocket: WebSocket):
-
-    username = websocket.query_params.get("username")
-    access_key = websocket.query_params.get("room_access_key")
-
-    if not username or not access_key:
-        raise WebSocketException(
-            code=status.WS_1008_POLICY_VIOLATION,
-            reason="please fill the required fields",
-        )
-
-    room_id = await redis_client.get(f"key:{access_key}")
-    if not room_id:
-        raise WebSocketException(
-            code=status.WS_1008_POLICY_VIOLATION, reason="wrong credentials try again."
-        )
-
-    user_id = str(uuid.uuid4())
-    user_connection_id = str(uuid.uuid4())
-
-    await connection_manager.accept_connection(
-        websocket=websocket,
-        room_id=room_id,
-        connection_id=user_connection_id,
-    )
-    await connection_manager.store_user_connection_in_redis(
-        room_id=room_id,
-        connection_id=user_connection_id,
-        user_id=user_id,
-        access_key=access_key,
-        username=username,
-    )
-    await connection_manager.brodcast_message(
-        user_connection_id, receive_msg="hey everyone, I just joined this group!"
-    )
-
-    # get pubsub
-    pubsub = redis_client.pubsub()
-
-    # subscribe the room channel
-    await pubsub.subscribe(room_id)
+async def join_room_service(form_data: JoinRoomRequest):
+    pass

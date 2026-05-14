@@ -4,8 +4,8 @@ from fastapi import APIRouter, Request, status, WebSocket, Form
 from fastapi.templating import Jinja2Templates
 
 
-from ..schemas.rooms import createRoomsResponse, createRoomsRequest
-from ..services.room_services import create_room_service, join_room_service
+from ..schemas.rooms import createRoomsResponse, createRoomsRequest, JoinRoomRequest
+from ..services.room_services import create_room_service
 from ..db.redis import redis_client
 
 Router = APIRouter(tags=["chat-room"], prefix="/rooms")
@@ -77,13 +77,9 @@ async def create_room(
 
 
 # join room
-@Router.websocket("/join")
-async def join_room_websocket_endpoint(websocket: WebSocket):
-    """
-    WebSocket endpoint for joining a chat room.
-
-    This endpoint allows clients to join a chat room via a WebSocket connection.
-    The client must provide their username and the room's access key as query parameters.
-    Upon successful connection, the user is added to the room and their connection details are tracked.
-    """
-    return await join_room_service(websocket)
+@Router.post("/join", status_code=status.HTTP_201_CREATED)
+async def join_room(
+    username: str = Form(...),
+    room_access_key: str = Form(...),
+):
+    room_details = JoinRoomRequest(username=username, room_access_key=room_access_key)
