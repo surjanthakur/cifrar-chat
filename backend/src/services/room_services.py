@@ -63,4 +63,36 @@ async def create_room_service(room_data: createRoomsRequest):
 
 # join room
 async def join_room_service(form_data: JoinRoomRequest):
-    pass
+    room_id = await redis_client.get(f"key:{form_data.room_access_key}")
+    if not room_id:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Wrong credential, try again."
+        )
+
+    user_id = str(uuid.uuid4())
+    user_connection_id = str(uuid.uuid4())
+    # store users info
+    await redis_client.hset(
+        name=f"user:{user_id}",
+        mapping={
+            "username": f"{form_data.username}",
+            "connection_id": f"{user_connection_id}",
+            "room_access_key": f"{form_data.room_access_key}",
+            "room_id": f"{room_id}",
+        },
+    )
+
+    # store room:users
+    await redis_client.sadd(f"room:{room_id}:users", user_id)
+
+    # store users:connections
+    await redis_client.sadd(f"users:{user_id}:connections", user_connection_id)
+
+    # store connections_info
+    await redis_client.hset(
+        name=f"connection:{user_connection_id}",
+        mapping={
+            "user_id": f"{user_id}",
+            "room_id": f"{room_id}",
+        },
+    )

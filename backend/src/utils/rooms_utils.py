@@ -34,43 +34,6 @@ class WebsocketConnectionManager:
         await redis_client.sadd(f"room:{room_id}:connections", connection_id)
         await websocket.send_text(json.dumps({"status": "success", "room_id": room_id}))
 
-    async def store_user_connection_in_redis(
-        self,
-        username: str,
-        access_key: str,
-        user_id: str,
-        room_id: str,
-        connection_id: str,
-    ):
-        """
-        Adds user and connection details to Redis for tracking room membership and connections.
-        """
-        # store user info
-        await redis_client.hset(
-            name=f"user:{user_id}",
-            mapping={
-                "username": f"{username}",
-                "connection_id": f"{connection_id}",
-                "room_access_key": f"{access_key}",
-                "room_id": f"{room_id}",
-            },
-        )
-
-        # store room:users
-        await redis_client.sadd(f"room:{room_id}:users", user_id)
-
-        # store users:connections
-        await redis_client.sadd(f"users:{user_id}:connections", connection_id)
-
-        # store connections_info
-        await redis_client.hset(
-            name=f"connection:{connection_id}",
-            mapping={
-                "user_id": f"{user_id}",
-                "room_id": f"{room_id}",
-            },
-        )
-
     async def brodcast_message(self, connection_id: str, receive_msg: str):
         # get user:user_id who send the meessage
         user_id = await redis_client.hget(

@@ -5,7 +5,7 @@ from fastapi.templating import Jinja2Templates
 
 
 from ..schemas.rooms import createRoomsResponse, createRoomsRequest, JoinRoomRequest
-from ..services.room_services import create_room_service
+from ..services.room_services import create_room_service, join_room_service
 from ..db.redis import redis_client
 
 Router = APIRouter(tags=["chat-room"], prefix="/rooms")
@@ -61,17 +61,11 @@ async def render_chat_window_page(req: Request):
     status_code=status.HTTP_201_CREATED,
     response_model=createRoomsResponse,
     summary="Create a new chat room",
-    description="Endpoint to create a new chat room. Requires a unique room name and room owner.",
 )
 async def create_room(
     room_name: str = Form(...),
     room_owner: str = Form(...),
 ):
-    """
-    :param room_data: The data required to create a new chat room, including the room name and owner name.
-    :type room_data: createRoomsRequest
-    :return: A response containing the details of the created chat room.
-    """
     room_details = createRoomsRequest(room_name=room_name, room_owner=room_owner)
     return await create_room_service(room_details)
 
@@ -83,3 +77,4 @@ async def join_room(
     room_access_key: str = Form(...),
 ):
     room_details = JoinRoomRequest(username=username, room_access_key=room_access_key)
+    return await join_room_service(room_details)
