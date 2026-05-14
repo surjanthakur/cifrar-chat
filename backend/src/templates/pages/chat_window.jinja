@@ -43,13 +43,13 @@
           >
             <i class="fa-regular fa-clock" aria-hidden="true"></i>
           </button>
-          <button
-            type="button"
+          <a
+          href="/"
             class="inline-flex cursor-pointer items-center justify-center rounded-lg border-0 bg-transparent px-2.5 py-2 text-lg leading-none text-[#aaa] transition-colors duration-150 hover:bg-[#3a3a3a] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500"
             aria-label="Close"
           >
             <i class="fa-regular fa-circle-xmark" aria-hidden="true"></i>
-          </button>
+          </a>
         </div>
       </header>
 
@@ -93,22 +93,26 @@
         class="chat-input-area shrink-0 border-t border-[#3a3a3a] bg-[#2a2a2a] px-[18px] py-3.5"
         role="contentinfo"
       >
-        <div
-          class="input-wrapper flex items-center gap-1 rounded-[10px] border border-white/[0.06] bg-[#363636] px-2 py-1"
-        >
-          <input
-            type="text"
-            class="message-input min-w-0 flex-1 border-0 bg-transparent px-3 py-2.5 text-[0.9375rem] text-[#e0e0e0] outline-none placeholder:text-gray-500"
-            placeholder="say anything..."
-            autocomplete="off"
-          />
-          <button
-            type="button"
-            class="send-btn inline-flex h-[42px] w-[100px] shrink-0 cursor-pointer items-center justify-center rounded-xl border-0 bg-green-500 p-0 text-lg leading-none text-white transition-colors duration-150 hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-300"
-            aria-label="Send message"
+        <div class="w-full flex justify-center">
+          <div
+            class="input-wrapper max-w-5xl w-full flex items-center gap-1 rounded-[10px] border border-white/[0.06] bg-[#363636] px-2 py-1"
+            style="max-width: 600px;"
+          >
+            <input
+              type="text"
+              class="message-input min-w-0 flex-1 border-0 bg-transparent px-3 py-2.5 text-[0.9375rem] text-[#e0e0e0] outline-none placeholder:text-gray-500"
+              placeholder="say anything..."
+              autocomplete="off"
+            />
+            <button
+              type="button"
+              class="send-btn inline-flex h-[42px] w-[100px] shrink-0 cursor-pointer items-center justify-center rounded-xl border-0 bg-green-500 p-0 text-lg leading-none text-white transition-colors duration-150 hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-300"
+              aria-label="Send message"
             >➤</button>
+          </div>
         </div>
       </footer>
+
     </div>
   </section>
 </main>
