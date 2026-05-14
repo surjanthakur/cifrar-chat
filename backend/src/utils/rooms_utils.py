@@ -1,5 +1,21 @@
+"""
+Utilities for room management in the cifrar-chat backend.
+
+This module provides helper functions and classes for handling room-related
+operations, such as generating unique room keys and managing user storage in
+Redis. These utilities are used by higher-level service layers to orchestrate
+chat room creation, user joining, and membership persistence, ensuring secure
+and efficient operation of the chat backend.
+
+Functions/classes:
+- generate_room_key: Generates secure unique access keys for chat rooms.
+- ManageUserStore: Manages user-to-room mapping and user info lifecycle in Redis.
+
+All Redis operations performed by these utilities are asynchronous.
+"""
+
 import secrets
-from ..db.redis import redis_client
+from backend.src.db.redis import redis_client
 
 
 def generate_room_key():
@@ -18,7 +34,6 @@ class ManageUserStore:
         """
         Initializes the ManageUserStore class.
         """
-        pass
 
     async def add_user(
         self,

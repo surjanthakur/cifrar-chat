@@ -1,8 +1,21 @@
+"""
+WebSocket connection manager utilities for the cifrar-chat backend.
+
+This module provides the WebsocketConnectionManager class, which handles the lifecycle
+and management of WebSocket connections for chat rooms, including:
+- Accepting and tracking new WebSocket connections per room.
+- Broadcasting messages to clients in a room.
+- Maintaining the mapping of active client connections in memory and in Redis.
+
+Intended to be used as the backend WebSocket session handler for real-time chat features.
+"""
+
 import json
 from datetime import datetime
-from fastapi import WebSocket
 from collections import defaultdict
-from ..db.redis import redis_client
+from fastapi import WebSocket
+
+from backend.src.db.redis import redis_client
 
 
 class WebsocketConnectionManager:
