@@ -6,13 +6,13 @@ from fastapi import APIRouter, Request, status, Form
 from fastapi.templating import Jinja2Templates
 
 
-from backend.src.schemas.rooms import (
+from ..schemas.rooms import (
     CreateRoomsRequest,
     CreateRoomsResponse,
     JoinRoomRequest,
 )
-from backend.src.services.room_services import create_room_service, join_room_service
-from backend.src.db.redis import redis_client
+from ..services.room_services import create_room_service, join_room_service
+from ..db.redis import redis_client
 
 Router = APIRouter(tags=["chat-room"], prefix="/rooms")
 

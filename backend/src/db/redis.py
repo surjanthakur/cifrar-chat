@@ -16,7 +16,8 @@ from redis.exceptions import (
     TryAgainError as RedisTryAgainError,
     ConnectionError as RedisConnectionError,
 )
-from backend.src.core.settings import settings
+
+from ..core.settings import settings
 
 logger = logging.getLogger(__name__)
 

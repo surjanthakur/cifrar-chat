@@ -15,7 +15,7 @@ All Redis operations performed by these utilities are asynchronous.
 """
 
 import secrets
-from backend.src.db.redis import redis_client
+from ..db.redis import redis_client
 
 
 def generate_room_key():

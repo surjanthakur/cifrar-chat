@@ -32,9 +32,9 @@ from redis.exceptions import (
 )
 
 
-from backend.src.utils.rooms_utils import generate_room_key, redisUserManager
-from backend.src.db.redis import redis_client
-from backend.src.schemas.rooms import CreateRoomsRequest, JoinRoomRequest
+from ..utils.rooms_utils import generate_room_key, redisUserManager
+from ..db.redis import redis_client
+from ..schemas.rooms import CreateRoomsRequest, JoinRoomRequest
 
 logger = logging.getLogger(__name__)
 

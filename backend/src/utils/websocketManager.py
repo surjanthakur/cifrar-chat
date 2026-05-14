@@ -15,7 +15,7 @@ from datetime import datetime
 from collections import defaultdict
 from fastapi import WebSocket
 
-from backend.src.db.redis import redis_client
+from ..db.redis import redis_client
 
 
 class WebsocketConnectionManager:
