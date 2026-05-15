@@ -15,9 +15,15 @@ All Redis operations performed by these utilities are asynchronous.
 """
 
 import secrets
+import json
+import asyncio
+import logging
+from datetime import datetime
+
 from ..db.redis import redis_client
 from ..utils.websocketManager import connection_manager
-import asyncio
+
+logger = logging.getLogger(__name__)
 
 
 def generate_room_key():
@@ -29,35 +35,42 @@ def generate_room_key():
 
 async def redis_room_listener():
     """
-    Asynchronously listens for messages published to all Redis channels and broadcasts
-    them to WebSocket connections using the connection_manager.
-
-    This function:
-    - Subscribes to all channels using Redis pubsub.
-    - Continuously awaits new messages from Redis.
-    - For every message received, extracts the channel (used as connection_id)
-      and forwards the message data to the appropriate WebSocket clients by invoking
-      connection_manager.brodcast_message.
-    - Sleeps briefly in each iteration to yield control.
-
-    Intended to be run as a background task to facilitate real-time message delivery
-    from Redis pubsub to active WebSocket connections.
+    Listens on Redis `room:*` channels and forwards chat payloads to every
+    active WebSocket client in that room.
     """
     pubsub = redis_client.pubsub()
-    await pubsub.subscribe("*")
+    await pubsub.psubscribe("room:*")
 
     while True:
-        message = await pubsub.get_message(ignore_subscribe_messages=True)
+        message = await pubsub.get_message(
+            ignore_subscribe_messages=True,
+            timeout=1.0,
+        )
+        if not message or message.get("type") != "pmessage":
+            await asyncio.sleep(0.01)
+            continue
 
-        conn_id = message["channel"]
-        receive_message = message["data"]
-        if message:
-            await connection_manager.brodcast_message(
-                connection_id=conn_id,
-                receive_msg=receive_message,
-                message_type="chat_message",
-            )
+        channel = message.get("channel", "")
+        room_id = channel.removeprefix("room:") if channel.startswith("room:") else ""
+        raw = message.get("data")
+        if not room_id or not raw:
+            await asyncio.sleep(0.01)
+            continue
 
+        try:
+            payload = json.loads(raw)
+        except json.JSONDecodeError:
+            payload = {
+                "type": "chat_message",
+                "username": "unknown",
+                "message": raw,
+                "timestamp": datetime.now().strftime("%d-%b-%I:%M%p").lower(),
+            }
+
+        if "timestamp" not in payload:
+            payload["timestamp"] = datetime.now().strftime("%d-%b-%I:%M%p").lower()
+
+        await connection_manager.broadcast_to_room(room_id, payload)
         await asyncio.sleep(0.01)
 
 

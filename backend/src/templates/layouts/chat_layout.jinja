@@ -12,15 +12,24 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="{{ url_for('static', path='/css/main.css') }}" />
-    <script
-      src="{{ url_for('static', path='/js/websocket.js') }}"
-      defer
-    ></script>
     <title>Room chat · Cifrar Chat</title>
   </head>
   <body
     class="m-0 flex h-dvh max-h-dvh min-h-0 flex-col overflow-hidden bg-black antialiased"
+    data-room-id="{{ room_id }}"
+    data-user-id="{{ user_id }}"
   >
+    <script>
+      window.__CHAT_CONFIG__ = {
+        roomId: {{ room_id | tojson }},
+        userId: {{ user_id | tojson }},
+        username: {{ username | tojson }},
+      };
+    </script>
     {% include "pages/chat_window.jinja" %}
+    <script
+      src="{{ url_for('static', path='/js/websocket.js') }}"
+      defer
+    ></script>
   </body>
 </html>

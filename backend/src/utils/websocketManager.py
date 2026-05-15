@@ -25,7 +25,7 @@ class WebsocketConnectionManager:
     """
 
     def __init__(self):
-        self.active_rooms: dict[str, dict[str, WebSocket]] = defaultdict(list)
+        self.active_rooms: dict[str, dict[str, WebSocket]] = defaultdict(dict)
 
     async def accept_connection(
         self, websocket: WebSocket, room_id: str, connection_id: str
@@ -88,7 +88,21 @@ class WebsocketConnectionManager:
         # convert into json string
         message_str = json.dumps(message_details)
 
-        for conn in self.active_rooms[room_id].values():
+        room_connections = self.active_rooms.get(room_id)
+        if not room_connections:
+            return
+
+        for conn in room_connections.values():
+            await conn.send_text(message_str)
+
+    async def broadcast_to_room(self, room_id: str, message_details: dict):
+        """Send a JSON payload to every WebSocket client in a room."""
+        room_connections = self.active_rooms.get(room_id)
+        if not room_connections:
+            return
+
+        message_str = json.dumps(message_details)
+        for conn in room_connections.values():
             await conn.send_text(message_str)
 
     async def disconnect(self, room_id: str, connection_id: str, user_id: str):
@@ -106,12 +120,17 @@ class WebsocketConnectionManager:
             - Deletes the user's hash, connections set, and connection info from Redis.
             - Removes the user's connection and membership from the room in Redis.
         """
-        del self.active_rooms[room_id][connection_id]
+        room_connections = self.active_rooms.get(room_id)
+        if room_connections and connection_id in room_connections:
+            del room_connections[connection_id]
+        if room_connections is not None and not room_connections:
+            del self.active_rooms[room_id]
+
         await redis_client.delete(f"user:{user_id}")
         await redis_client.delete(f"users:{user_id}:connections")
         await redis_client.delete(f"connection:{connection_id}")
-        await redis_client.delete(f"room:{room_id}:connections", connection_id)
-        await redis_client.delete(f"room:{room_id}:users", user_id)
+        await redis_client.srem(f"room:{room_id}:connections", connection_id)
+        await redis_client.srem(f"room:{room_id}:users", user_id)
 
 
 connection_manager = WebsocketConnectionManager()

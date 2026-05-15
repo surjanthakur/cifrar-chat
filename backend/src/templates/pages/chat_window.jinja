@@ -23,10 +23,14 @@
           </span>
           <span
             class="channel-name text-base font-semibold leading-tight tracking-wide text-[#f06969]"
-            >steve jones</span>
+            >{{ room_name }}</span>
+          <span
+            id="chat-connection-status"
+            class="text-[0.8125rem] leading-snug text-[#8a8a8a]"
+            >Connecting…</span>
           <span
             class="online-count text-[0.8125rem] leading-snug text-[#8a8a8a]"
-            >23 online</span>
+            >{{ online_count }} online</span>
         </div>
         <div class="header-actions flex shrink-0 items-center gap-1">
           <button
@@ -65,8 +69,6 @@
           id="chat-messages-list"
           class="flex min-h-full w-full flex-col items-start justify-end gap-5"
         >
-        {# message div #}
-         <article class="message-group flex max-w-[min(100%,28rem)] shrink-0 gap-3 self-start">
             <div
               class="message-content min-w-0 rounded-[15px] border border-white/[0.06] bg-white/[0.04] px-3.5 py-2.5"
             >
@@ -99,12 +101,14 @@
             style="max-width: 600px;"
           >
             <input
+              id="chat-message-input"
               type="text"
               class="message-input min-w-0 flex-1 border-0 bg-transparent px-3 py-2.5 text-[0.9375rem] text-[#e0e0e0] outline-none placeholder:text-gray-500"
               placeholder="say anything..."
               autocomplete="off"
             />
             <button
+              id="chat-send-btn"
               type="button"
               class="send-btn inline-flex h-[42px] w-[100px] shrink-0 cursor-pointer items-center justify-center rounded-xl border-0 bg-green-500 p-0 text-lg leading-none text-white transition-colors duration-150 hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-300"
               aria-label="Send message"
@@ -116,3 +120,20 @@
     </div>
   </section>
 </main>
+
+<script>
+(function () {
+  function scrollChatToBottom() {
+    const el = document.getElementById("chat-messages-scroll");
+    if (el) el.scrollTop = el.scrollHeight;
+  }
+
+  window.scrollChatToBottom = scrollChatToBottom;
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", scrollChatToBottom);
+  } else {
+    scrollChatToBottom();
+  }
+})();
+</script>

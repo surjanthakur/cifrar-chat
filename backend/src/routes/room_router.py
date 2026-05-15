@@ -66,12 +66,21 @@ async def render_chat_window_page(
     user_id: str,
 ):
     """Render the chat window page for a given room and user."""
+    room_data = await redis_client.hgetall(f"room:{room_id}")
+    username = await redis_client.hget(f"user:{user_id}", "username")
+    online_count = await redis_client.scard(f"room:{room_id}:users")
+
     return templates.TemplateResponse(
         request=req,
         name="layouts/chat_layout.jinja",
         context={
             "room_id": room_id,
             "user_id": user_id,
+            "username": username or "unknown",
+            "room_name": (
+                room_data.get("room_name", "Chat room") if room_data else "Chat room"
+            ),
+            "online_count": online_count or 0,
         },
     )
 

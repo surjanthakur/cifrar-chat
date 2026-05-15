@@ -14,6 +14,7 @@ errors.
 
 import asyncio
 import uuid
+import json
 import logging
 from datetime import datetime
 
@@ -166,21 +167,36 @@ async def realtime_chat_service(websocket: WebSocket):
             reason="invalid data try again!",
         )
 
+    username = await redis_client.hget(name=f"user:{user_id}", key="username")
+
     await connection_manager.accept_connection(
         websocket=websocket,
         room_id=room_id,
         connection_id=user_connection_id,
     )
+    await connection_manager.brodcast_message(
+        connection_id=user_connection_id,
+        receive_msg=f"{username or 'Someone'} joined the room",
+        message_type="user_joined",
+    )
 
-    while True:
-        try:
-            message = websocket.receive_text()
-            await redis_client.publish(channel=user_connection_id, message=message)
-
-        except WebSocketDisconnect:
-            await connection_manager.brodcast_message(
-                connection_id=user_connection_id,
-                receive_msg="hey huys i left the room!",
-                message_type="user_left",
+    try:
+        while True:
+            message = await websocket.receive_text()
+            payload = json.dumps(
+                {
+                    "type": "chat_message",
+                    "username": username or "unknown",
+                    "message": message,
+                    "timestamp": datetime.now().strftime("%d-%b-%I:%M%p").lower(),
+                }
             )
-            await connection_manager.disconnect(room_id, user_connection_id, user_id)
+            await redis_client.publish(channel=f"room:{room_id}", message=payload)
+
+    except WebSocketDisconnect:
+        await connection_manager.brodcast_message(
+            connection_id=user_connection_id,
+            receive_msg=f"{username or 'Someone'} left the room",
+            message_type="user_left",
+        )
+        await connection_manager.disconnect(room_id, user_connection_id, user_id)
