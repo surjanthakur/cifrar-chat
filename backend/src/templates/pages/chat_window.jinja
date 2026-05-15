@@ -48,9 +48,10 @@
             <i class="fa-regular fa-clock" aria-hidden="true"></i>
           </button>
           <a
-          href="/"
+            id="chat-close-btn"
+            href="/"
             class="inline-flex cursor-pointer items-center justify-center rounded-lg border-0 bg-transparent px-2.5 py-2 text-lg leading-none text-[#aaa] transition-colors duration-150 hover:bg-[#3a3a3a] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500"
-            aria-label="Close"
+            aria-label="Close chat"
           >
             <i class="fa-regular fa-circle-xmark" aria-hidden="true"></i>
           </a>
@@ -68,26 +69,7 @@
         <div
           id="chat-messages-list"
           class="flex min-h-full w-full flex-col items-start justify-end gap-5"
-        >
-            <div
-              class="message-content min-w-0 rounded-[15px] border border-white/[0.06] bg-white/[0.04] px-3.5 py-2.5"
-            >
-              <div
-                class="message-header mb-1.5 flex flex-wrap items-baseline gap-x-3 gap-y-2"
-              >
-                <span class="author font-semibold text-[#35d99d]">test</span>
-                <span
-                  class="timestamp text-xs tabular-nums text-gray-500"
-                  >12:01</span>
-              </div>
-              <div
-                class="message-body break-words text-[0.9375rem] leading-[1.55] text-[#e5e5e5] [overflow-wrap:anywhere]"
-              >
-                older message — scroll up for history
-              </div>
-            </div>
-          </article>
-        </div>
+        ></div>
       </div>
 
       <!-- Composer -->

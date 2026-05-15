@@ -7,6 +7,7 @@
   const messagesList = document.getElementById("chat-messages-list");
   const messageInput = document.getElementById("chat-message-input");
   const sendBtn = document.getElementById("chat-send-btn");
+  const closeBtn = document.getElementById("chat-close-btn");
   const connectionStatus = document.getElementById("chat-connection-status");
 
   if (!messagesList || !messageInput || !sendBtn) {
@@ -21,6 +22,39 @@
 
   let socket = null;
   let reconnectTimer = null;
+  let isLeaving = false;
+
+  function clearReconnectTimer() {
+    if (!reconnectTimer) return;
+    clearTimeout(reconnectTimer);
+    reconnectTimer = null;
+  }
+
+  function disconnectChat() {
+    isLeaving = true;
+    clearReconnectTimer();
+
+    if (!socket) return;
+
+    if (
+      socket.readyState === WebSocket.OPEN ||
+      socket.readyState === WebSocket.CONNECTING
+    ) {
+      socket.close(1000, "user left");
+    }
+    socket = null;
+  }
+
+  function leaveChatAndNavigate(url) {
+    const destination = url || "/";
+    disconnectChat();
+    setConnectionStatus("Leaving…", false);
+
+    // Brief pause so the browser can send the WebSocket close frame to the server.
+    window.setTimeout(() => {
+      window.location.href = destination;
+    }, 120);
+  }
 
   function setConnectionStatus(text, isError) {
     if (!connectionStatus) return;
@@ -47,7 +81,7 @@
   function appendSystemMessage(payload) {
     const item = document.createElement("p");
     item.className =
-      "system-message w-full shrink-0 text-center text-[0.8125rem] leading-snug text-[#8a8a8a]";
+      "system-message w-full shrink-0 self-start text-left text-[0.8125rem] leading-snug text-[#8a8a8a]";
     const label =
       payload.type === "user_joined"
         ? "joined"
@@ -64,18 +98,6 @@
     article.className =
       "message-group flex max-w-[min(100%,28rem)] shrink-0 gap-3 self-start";
 
-    const isSelf =
-      config.username &&
-      payload.username &&
-      payload.username.toLowerCase() === config.username.toLowerCase();
-
-    if (isSelf) {
-      article.classList.remove("self-start");
-      article.classList.add("self-end");
-    }
-
-    const authorColor = isSelf ? "text-[#60a5fa]" : "text-[#35d99d]";
-
     const content = document.createElement("div");
     content.className =
       "message-content min-w-0 rounded-[15px] border border-white/[0.06] bg-white/[0.04] px-3.5 py-2.5";
@@ -85,7 +107,7 @@
       "message-header mb-1.5 flex flex-wrap items-baseline gap-x-3 gap-y-2";
 
     const author = document.createElement("span");
-    author.className = `author font-semibold ${authorColor}`;
+    author.className = "author font-semibold text-[#35d99d]";
     author.textContent = payload.username || "unknown";
 
     const timestamp = document.createElement("span");
@@ -133,7 +155,7 @@
   }
 
   function scheduleReconnect() {
-    if (reconnectTimer) return;
+    if (isLeaving || reconnectTimer) return;
     reconnectTimer = window.setTimeout(() => {
       reconnectTimer = null;
       connect();
@@ -141,6 +163,8 @@
   }
 
   function connect() {
+    if (isLeaving) return;
+
     if (
       socket &&
       (socket.readyState === WebSocket.OPEN ||
@@ -159,6 +183,10 @@
     socket.addEventListener("message", handleIncomingMessage);
 
     socket.addEventListener("close", () => {
+      if (isLeaving) {
+        setConnectionStatus("Disconnected", false);
+        return;
+      }
       setConnectionStatus("Disconnected — retrying…", true);
       scheduleReconnect();
     });
@@ -173,6 +201,19 @@
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
       sendMessage();
+    }
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      leaveChatAndNavigate(closeBtn.getAttribute("href"));
+    });
+  }
+
+  window.addEventListener("pagehide", () => {
+    if (!isLeaving) {
+      disconnectChat();
     }
   });
 
