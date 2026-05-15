@@ -71,13 +71,20 @@ class ManageUserStore:
         await redis_client.sadd(f"users:{user_id}:connections", connection_id)
         await redis_client.expire(f"users:{user_id}:connections", 7200)
 
-    async def add_connection(self, connection_id: str, user_id: str, room_id: str):
+    async def add_connection(
+        self,
+        username: str,
+        connection_id: str,
+        user_id: str,
+        room_id: str,
+    ):
         """
         Store connection information, mapping a connection ID to a user and room.
         """
         await redis_client.hset(
             name=f"connection:{connection_id}",
             mapping={
+                "username": f"{username}",
                 "user_id": f"{user_id}",
                 "room_id": f"{room_id}",
             },

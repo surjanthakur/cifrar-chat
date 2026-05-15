@@ -17,7 +17,13 @@ import uuid
 import logging
 from datetime import datetime
 
-from fastapi import HTTPException, WebSocket, status, WebSocketException
+from fastapi import (
+    HTTPException,
+    WebSocket,
+    status,
+    WebSocketException,
+    WebSocketDisconnect,
+)
 from fastapi.responses import RedirectResponse
 from redis.exceptions import (
     RedisError,
@@ -108,7 +114,12 @@ async def join_room_service(form_data: JoinRoomRequest):
         # store users:connections
         await redisUserManager.add_users_connections(user_id, user_connection_id)
         # store connections_info
-        await redisUserManager.add_connection(user_connection_id, user_id, room_id)
+        await redisUserManager.add_connection(
+            form_data.username,
+            user_connection_id,
+            user_id,
+            room_id,
+        )
 
         # redirecting to chat
         return RedirectResponse(
@@ -155,4 +166,19 @@ async def realtime_chat_service(websocket: WebSocket):
             reason="invalid data try again!",
         )
 
-    await connection_manager.accept_connection(websocket=websocket, room_id=room_id)
+    await connection_manager.accept_connection(
+        websocket=websocket,
+        room_id=room_id,
+        connection_id=user_connection_id,
+    )
+
+    while True:
+        try:
+            message = websocket.receive_text()
+
+            await redis_client.publish(channel=room_id, message=message)
+
+        except WebSocketDisconnect:
+            pass
+        # bordcast message that user disconnect
+        # disconnect user and clean its info

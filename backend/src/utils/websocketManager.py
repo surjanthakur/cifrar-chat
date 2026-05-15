@@ -39,13 +39,16 @@ class WebsocketConnectionManager:
         await redis_client.sadd(f"room:{room_id}:connections", connection_id)
         await redis_client.expire(name=f"room:{room_id}:connections", time=7200)
 
-    async def brodcast_message(self, connection_id: str, receive_msg: str):
+    async def brodcast_message(
+        self,
+        connection_id: str,
+        receive_msg: str,
+        message_type: str = "chat-message",
+    ):
         # get user:user_id who send the meessage
-        user_id = await redis_client.hget(
-            name=f"connection:{connection_id}", key="user_id"
+        username = await redis_client.hget(
+            name=f"connection:{connection_id}", key="username"
         )
-        # get the user:username
-        username = await redis_client.hget(name=f"user:{user_id}", key="username")
         # get room_id which user subscribe
         room_id = await redis_client.hget(
             name=f"connection:{connection_id}", key="room_id"
@@ -53,6 +56,7 @@ class WebsocketConnectionManager:
 
         # strucure msg details
         message_details = {
+            "type": message_type,
             "username": username,
             "message": receive_msg,
             "timestamp": datetime.now().strftime("%d-%b-%I:%M%p").lower(),
@@ -62,6 +66,10 @@ class WebsocketConnectionManager:
 
         for conn in self.active_rooms[room_id].values():
             await conn.send_text(message_str)
+
+    async def disconnect(self, room_id: str, connection_id: str):
+        del self.active_rooms[room_id][connection_id]
+        # delete
 
 
 connection_manager = WebsocketConnectionManager()
