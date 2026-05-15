@@ -110,7 +110,7 @@ class WebsocketConnectionManager:
         await redis_client.delete(f"user:{user_id}")
         await redis_client.delete(f"users:{user_id}:connections")
         await redis_client.delete(f"connection:{connection_id}")
-        await redis_client.delete(f"room:{room_id}:connection", connection_id)
+        await redis_client.delete(f"room:{room_id}:connections", connection_id)
         await redis_client.delete(f"room:{room_id}:users", user_id)
 
 
