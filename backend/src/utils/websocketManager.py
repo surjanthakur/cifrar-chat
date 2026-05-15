@@ -67,9 +67,13 @@ class WebsocketConnectionManager:
         for conn in self.active_rooms[room_id].values():
             await conn.send_text(message_str)
 
-    async def disconnect(self, room_id: str, connection_id: str):
+    async def disconnect(self, room_id: str, connection_id: str, user_id: str):
         del self.active_rooms[room_id][connection_id]
-        # delete
+        await redis_client.delete(f"user:{user_id}")
+        await redis_client.delete(f"users:{user_id}:connections")
+        await redis_client.delete(f"connection:{connection_id}")
+        await redis_client.delete(f"room:{room_id}:connection", connection_id)
+        await redis_client.delete(f"room:{room_id}:users", user_id)
 
 
 connection_manager = WebsocketConnectionManager()
