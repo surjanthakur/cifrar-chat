@@ -175,10 +175,12 @@ async def realtime_chat_service(websocket: WebSocket):
     while True:
         try:
             message = websocket.receive_text()
-
-            await redis_client.publish(channel=room_id, message=message)
+            await redis_client.publish(channel=user_connection_id, message=message)
 
         except WebSocketDisconnect:
-            pass
-        # bordcast message that user disconnect
-        # disconnect user and clean its info
+            await connection_manager.brodcast_message(
+                connection_id=user_connection_id,
+                receive_msg="hey huys i left the room!",
+                message_type="user_left",
+            )
+            await connection_manager.disconnect(room_id, user_connection_id, user_id)

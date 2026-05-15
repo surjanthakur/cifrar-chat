@@ -16,6 +16,8 @@ All Redis operations performed by these utilities are asynchronous.
 
 import secrets
 from ..db.redis import redis_client
+from ..utils.websocketManager import connection_manager
+import asyncio
 
 
 def generate_room_key():
@@ -23,6 +25,40 @@ def generate_room_key():
     Generates a unique room key using the secrets module for secure random generation.
     """
     return secrets.token_urlsafe(nbytes=10)
+
+
+async def redis_room_listener():
+    """
+    Asynchronously listens for messages published to all Redis channels and broadcasts
+    them to WebSocket connections using the connection_manager.
+
+    This function:
+    - Subscribes to all channels using Redis pubsub.
+    - Continuously awaits new messages from Redis.
+    - For every message received, extracts the channel (used as connection_id)
+      and forwards the message data to the appropriate WebSocket clients by invoking
+      connection_manager.brodcast_message.
+    - Sleeps briefly in each iteration to yield control.
+
+    Intended to be run as a background task to facilitate real-time message delivery
+    from Redis pubsub to active WebSocket connections.
+    """
+    pubsub = redis_client.pubsub()
+    await pubsub.subscribe("*")
+
+    while True:
+        message = await pubsub.get_message(ignore_subscribe_messages=True)
+
+        conn_id = message["channel"]
+        receive_message = message["data"]
+        if message:
+            await connection_manager.brodcast_message(
+                connection_id=conn_id,
+                receive_msg=receive_message,
+                message_type="chat_message",
+            )
+
+        await asyncio.sleep(0.01)
 
 
 class ManageUserStore:

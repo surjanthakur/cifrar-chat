@@ -2,6 +2,7 @@
 
 import logging
 import time
+import asyncio
 from typing import Callable, Awaitable
 from pathlib import Path
 
@@ -14,6 +15,7 @@ from fastapi.templating import Jinja2Templates
 from .core.logging import setup_logging
 from .db.redis import check_redis_connection, close_redis_connection
 from .routes import room_router
+from .utils.rooms_utils import redis_room_listener
 
 
 setup_logging(level="INFO", app_name="cifrar-chat")
@@ -34,12 +36,14 @@ async def lifespan(_: FastAPI):
 
     try:
         await check_redis_connection()
+        task_listener = asyncio.create_task(redis_room_listener())
         yield
     except Exception as err:
         raise RuntimeError(f"error on startup app {err}") from err
 
     finally:
         await close_redis_connection()
+        task_listener.cancel()
 
 
 app = FastAPI(lifespan=lifespan, title="cifrar-chat", version="0.1")
