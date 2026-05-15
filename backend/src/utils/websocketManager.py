@@ -10,10 +10,12 @@ and management of WebSocket connections for chat rooms, including:
 Intended to be used as the backend WebSocket session handler for real-time chat features.
 """
 
+from csv import excel
 import json
 from datetime import datetime
 from collections import defaultdict
 from fastapi import WebSocket
+from redis.asyncio import connection
 
 from ..db.redis import redis_client
 
@@ -102,8 +104,21 @@ class WebsocketConnectionManager:
             return
 
         message_str = json.dumps(message_details)
-        for conn in room_connections.values():
-            await conn.send_text(message_str)
+
+        # storing dead [closed] connection id
+        dead_connections = []
+
+        for connection_id, conn in room_connections.items():
+
+            try:
+                await conn.send_text(message_str)
+            except Exception:
+                # append dead connection on [dead_connections list]
+                dead_connections.append(connection_id)
+
+        for conn_id in dead_connections:
+            # remove dead connection [websocket obj]
+            room_connections.pop(conn_id, None)
 
     async def disconnect(self, room_id: str, connection_id: str, user_id: str):
         """

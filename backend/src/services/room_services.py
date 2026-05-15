@@ -194,9 +194,10 @@ async def realtime_chat_service(websocket: WebSocket):
             await redis_client.publish(channel=f"room:{room_id}", message=payload)
 
     except WebSocketDisconnect:
+        await connection_manager.disconnect(room_id, user_connection_id, user_id)
+
         await connection_manager.brodcast_message(
             connection_id=user_connection_id,
             receive_msg=f"{username or 'Someone'} left the room",
             message_type="user_left",
         )
-        await connection_manager.disconnect(room_id, user_connection_id, user_id)
