@@ -67,7 +67,7 @@ class WebsocketConnectionManager:
         This method:
             - Retrieves the sender's username and room ID from Redis using the connection ID.
             - Constructs a message payload including type, username, message, and timestamp.
-            - Broadcasts the message to all active WebSocket connections in the room.
+            - Broadcasts the message to all activ  \e WebSocket connections in the room.
         """
 
         username = await redis_client.hget(
