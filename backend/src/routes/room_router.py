@@ -2,7 +2,7 @@
 
 from pathlib import Path
 from typing import Optional
-from fastapi import APIRouter, Request, status, Form
+from fastapi import APIRouter, Request, status, Form, WebSocket
 from fastapi.templating import Jinja2Templates
 
 
@@ -11,7 +11,11 @@ from ..schemas.rooms import (
     CreateRoomsResponse,
     JoinRoomRequest,
 )
-from ..services.room_services import create_room_service, join_room_service
+from ..services.room_services import (
+    create_room_service,
+    join_room_service,
+    realtime_chat_service,
+)
 from ..db.redis import redis_client
 
 Router = APIRouter(tags=["chat-room"], prefix="/rooms")
@@ -100,3 +104,9 @@ async def join_room(
     """Join a chat room using room access key and username."""
     room_details = JoinRoomRequest(username=username, room_access_key=room_access_key)
     return await join_room_service(room_details)
+
+
+# brodcasting chats
+@Router.websocket("/ws/chat")
+async def websockets_chats(websocket: WebSocket):
+    return await realtime_chat_service(websocket)

@@ -25,7 +25,7 @@ class WebsocketConnectionManager:
     """
 
     def __init__(self):
-        self.active_rooms: dict[str, list[WebSocket]] = defaultdict(list)
+        self.active_rooms: dict[str, dict[str, WebSocket]] = defaultdict(list)
 
     async def accept_connection(
         self, websocket: WebSocket, room_id: str, connection_id: str
@@ -34,10 +34,10 @@ class WebsocketConnectionManager:
         Accepts a new WebSocket connection for a given room and connection ID.
         """
         await websocket.accept()
-        self.active_rooms[room_id].append(websocket)
+        self.active_rooms[room_id][connection_id] = websocket
         # store room:connections
         await redis_client.sadd(f"room:{room_id}:connections", connection_id)
-        await websocket.send_text(json.dumps({"status": "success", "room_id": room_id}))
+        await redis_client.expire(name=f"room:{room_id}:connections", time=7200)
 
     async def brodcast_message(self, connection_id: str, receive_msg: str):
         # get user:user_id who send the meessage
@@ -57,13 +57,11 @@ class WebsocketConnectionManager:
             "message": receive_msg,
             "timestamp": datetime.now().strftime("%d-%b-%I:%M%p").lower(),
         }
-
         # convert into json string
         message_str = json.dumps(message_details)
 
-        for connection in self.active_rooms[room_id]:
-            # send in each WS connections
-            await connection.send_text(message_str)
+        for conn in self.active_rooms[room_id].values():
+            await conn.send_text(message_str)
 
 
 connection_manager = WebsocketConnectionManager()

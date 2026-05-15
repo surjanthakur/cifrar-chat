@@ -10,12 +10,6 @@ with user and websocket management utilities.
 
 All Redis operations are asynchronous and resilient to transient database
 errors.
-
-Typical usage:
-    from backend.src.services import room_services
-
-    await room_services.create_room_service(your_createRoomsRequest_instance)
-    # etc.
 """
 
 import asyncio
@@ -23,7 +17,7 @@ import uuid
 import logging
 from datetime import datetime
 
-from fastapi import HTTPException, status
+from fastapi import HTTPException, WebSocket, status, WebSocketException
 from fastapi.responses import RedirectResponse
 from redis.exceptions import (
     RedisError,
@@ -35,6 +29,7 @@ from redis.exceptions import (
 from ..utils.rooms_utils import generate_room_key, redisUserManager
 from ..db.redis import redis_client
 from ..schemas.rooms import CreateRoomsRequest, JoinRoomRequest
+from ..utils.websocketManager import connection_manager
 
 logger = logging.getLogger(__name__)
 
@@ -89,12 +84,6 @@ async def join_room_service(form_data: JoinRoomRequest):
     Looks up the room by access key in Redis, creates a new user, and registers user-related
     info in Redis. Redirects to the chat window if successful. Raises HTTPException if the
     access key does not exist or in case of redis error or other failure.
-
-    Args:
-        form_data (JoinRoomRequest): Data containing username and room access key.
-
-    Returns:
-        RedirectResponse: Redirects to the chat window page with room and user info.
     """
     try:
         room_id = await redis_client.get(f"key:{form_data.room_access_key}")
@@ -143,3 +132,27 @@ async def join_room_service(form_data: JoinRoomRequest):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="something went wrong try again!",
         ) from err
+
+
+# websocket endpoint
+async def realtime_chat_service(websocket: WebSocket):
+    room_id = websocket.query_params.get("room_id")
+    user_id = websocket.query_params.get("user_id")
+
+    if not room_id or not user_id:
+        await websocket.close()
+        raise WebSocketException(
+            code=status.WS_1007_INVALID_FRAME_PAYLOAD_DATA,
+            reason="invalid data try again!",
+        )
+    user_connection_id = await redis_client.hget(
+        name=f"user:{user_id}", key="connection_id"
+    )
+    if not user_connection_id:
+        await websocket.close()
+        raise WebSocketException(
+            code=status.WS_1007_INVALID_FRAME_PAYLOAD_DATA,
+            reason="invalid data try again!",
+        )
+
+    await connection_manager.accept_connection(websocket=websocket, room_id=room_id)
