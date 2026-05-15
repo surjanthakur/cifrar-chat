@@ -31,8 +31,19 @@ class WebsocketConnectionManager:
         self, websocket: WebSocket, room_id: str, connection_id: str
     ):
         """
-        Accepts a new WebSocket connection for a given room and connection ID.
+        Accepts and registers a new WebSocket connection for a specified chat room.
+
+        Args:
+            websocket (WebSocket): The WebSocket connection to accept.
+            room_id (str): The room ID where the connection is being made.
+            connection_id (str): The unique ID associated with this WebSocket connection.
+
+        This method:
+            - Accepts the incoming WebSocket connection.
+            - Tracks the connection in the in-memory active_rooms structure.
+            - Registers the connection in Redis for the specified room with a 2-hour expiry.
         """
+
         await websocket.accept()
         self.active_rooms[room_id][connection_id] = websocket
         # store room:connections
@@ -45,16 +56,29 @@ class WebsocketConnectionManager:
         receive_msg: str,
         message_type: str = "chat-message",
     ):
-        # get user:user_id who send the meessage
+        """
+        Broadcasts a message to all WebSocket connections in the sender's room.
+
+        Args:
+            connection_id (str): The connection ID of the sender.
+            receive_msg (str): The message to broadcast.
+            message_type (str, optional): The type of message. Defaults to "chat-message".
+
+        This method:
+            - Retrieves the sender's username and room ID from Redis using the connection ID.
+            - Constructs a message payload including type, username, message, and timestamp.
+            - Broadcasts the message to all active WebSocket connections in the room.
+        """
+
         username = await redis_client.hget(
             name=f"connection:{connection_id}", key="username"
         )
-        # get room_id which user subscribe
+        # get room_id which user is subscribed to
         room_id = await redis_client.hget(
             name=f"connection:{connection_id}", key="room_id"
         )
 
-        # strucure msg details
+        # structure msg details
         message_details = {
             "type": message_type,
             "username": username,
@@ -68,6 +92,20 @@ class WebsocketConnectionManager:
             await conn.send_text(message_str)
 
     async def disconnect(self, room_id: str, connection_id: str, user_id: str):
+        """
+        Disconnects a user's WebSocket session in a room, removes connection and user info from local memory
+        and cleans up associated keys from Redis.
+
+        Args:
+            room_id (str): The ID of the room the user is leaving.
+            connection_id (str): The unique connection identifier for the user.
+            user_id (str): The unique user identifier.
+
+        Performs the following cleanup:
+            - Removes the WebSocket connection from in-memory active_rooms tracking.
+            - Deletes the user's hash, connections set, and connection info from Redis.
+            - Removes the user's connection and membership from the room in Redis.
+        """
         del self.active_rooms[room_id][connection_id]
         await redis_client.delete(f"user:{user_id}")
         await redis_client.delete(f"users:{user_id}:connections")
