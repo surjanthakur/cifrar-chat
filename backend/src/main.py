@@ -51,13 +51,6 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 templates = Jinja2Templates(directory=TEMPLATE_DIR)
 
 
-# health check route
-@app.get("/health", tags=["health check route"])
-def check_health():
-    """Health check endpoint to verify if the application is running."""
-    return {"status": "ok"}
-
-
 # render main page
 @app.get("/", tags=["home page render route"], summary="render homepage of website")
 async def homepage(req: Request):
@@ -82,6 +75,13 @@ async def log_request(
         msg=f"method:{request.method} url:{request.url} took:{process_time:.2f}seconds to complete"
     )
     return response
+
+
+# health check route
+@app.get("/health", tags=["health check route"])
+def check_health():
+    """Health check endpoint to verify if the application is running."""
+    return {"status": "ok"}
 
 
 # app routers
