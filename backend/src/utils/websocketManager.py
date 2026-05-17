@@ -10,12 +10,10 @@ and management of WebSocket connections for chat rooms, including:
 Intended to be used as the backend WebSocket session handler for real-time chat features.
 """
 
-from csv import excel
 import json
 from datetime import datetime
 from collections import defaultdict
 from fastapi import WebSocket
-from redis.asyncio import connection
 
 from ..db.redis import redis_client
 
@@ -29,21 +27,12 @@ class WebsocketConnectionManager:
     def __init__(self):
         self.active_rooms: dict[str, dict[str, WebSocket]] = defaultdict(dict)
 
+    # accept the ws connection.
     async def accept_connection(
         self, websocket: WebSocket, room_id: str, connection_id: str
     ):
         """
         Accepts and registers a new WebSocket connection for a specified chat room.
-
-        Args:
-            websocket (WebSocket): The WebSocket connection to accept.
-            room_id (str): The room ID where the connection is being made.
-            connection_id (str): The unique ID associated with this WebSocket connection.
-
-        This method:
-            - Accepts the incoming WebSocket connection.
-            - Tracks the connection in the in-memory active_rooms structure.
-            - Registers the connection in Redis for the specified room with a 2-hour expiry.
         """
 
         await websocket.accept()
@@ -52,6 +41,7 @@ class WebsocketConnectionManager:
         await redis_client.sadd(f"room:{room_id}:connections", connection_id)
         await redis_client.expire(name=f"room:{room_id}:connections", time=7200)
 
+    # brodcast messages when user joined ,disconnect ,other reasons.
     async def brodcast_message(
         self,
         connection_id: str,
@@ -97,6 +87,7 @@ class WebsocketConnectionManager:
         for conn in room_connections.values():
             await conn.send_text(message_str)
 
+    # brodcast user message to all ws connnection.
     async def broadcast_to_room(self, room_id: str, message_details: dict):
         """Send a JSON payload to every WebSocket client in a room."""
         room_connections = self.active_rooms.get(room_id)
@@ -120,6 +111,7 @@ class WebsocketConnectionManager:
             # remove dead connection [websocket obj]
             room_connections.pop(conn_id, None)
 
+    # disconnect the ws connection after connection lost or error.
     async def disconnect(self, room_id: str, connection_id: str, user_id: str):
         """
         Disconnects a user's WebSocket session in a room, removes connection and user info from local memory
